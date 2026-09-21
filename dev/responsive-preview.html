@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview responsivo — Ichinen Dojo</title>
+<style>
+  :root {
+    --bg: #f2f2f2;
+    --panel: #ffffff;
+    --ink: #111111;
+    --muted: #6b6b6b;
+    --accent: #e8503a;
+    --border: #dcdcdc;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header h1 {
+    font-size: 15px;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  header h1 span { color: var(--accent); }
+
+  .modes { display: flex; gap: 6px; margin-left: auto; }
+  .modes button, .device-btn {
+    background: #2a2a2a;
+    color: #fff;
+    border: 1px solid #3d3d3d;
+    padding: 7px 12px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    cursor: pointer;
+  }
+  .modes button.active, .device-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .device-bar {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    background: #1a1a1a;
+    border-bottom: 1px solid #333;
+  }
+  .device-btn small { display: block; opacity: 0.7; font-weight: 400; }
+
+  .toolbar-extra {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 20px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .toolbar-extra label { display: flex; align-items: center; gap: 6px; color: var(--muted); }
+  .toolbar-extra input[type="text"] {
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 13px;
+    width: 220px;
+  }
+  .reload-btn, .rotate-btn {
+    background: #eee;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+  main { padding: 24px; }
+
+  /* ---- modo simple: un dispositivo grande ---- */
+  #single-view { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .device-label { font-size: 13px; color: var(--muted); }
+  .device-label b { color: var(--ink); }
+
+  .frame {
+    background: #000;
+    border-radius: 22px;
+    padding: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  }
+  .frame--desktop { border-radius: 8px; padding: 6px 6px 0; }
+  .frame-screen {
+    background: #fff;
+    border-radius: 14px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .frame--desktop .frame-screen { border-radius: 4px; }
+  .frame-screen iframe {
+    display: block;
+    border: none;
+  }
+
+  /* ---- modo grilla: todos los dispositivos a la vez ---- */
+  #grid-view {
+    display: none;
+    flex-wrap: wrap;
+    gap: 22px;
+    justify-content: center;
+  }
+  #grid-view.active { display: flex; }
+  #single-view.hidden { display: none; }
+
+  .grid-card { text-align: center; }
+  .grid-card .device-label { margin-bottom: 8px; }
+  .grid-thumb {
+    background: #000;
+    border-radius: 14px;
+    padding: 6px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  }
+  .grid-thumb-inner {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .grid-thumb iframe {
+    border: none;
+    display: block;
+    pointer-events: none; /* la grilla es solo para mirar; el modo simple es para interactuar */
+    transform-origin: top left;
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px 20px 50px;
+    color: var(--muted);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Ichinen Dojo — <span>Preview responsivo</span></h1>
+  <div class="modes">
+    <button id="modeSingleBtn" class="active">Un dispositivo</button>
+    <button id="modeGridBtn">Ver todos</button>
+  </div>
+</header>
+
+<div class="device-bar" id="deviceBar"></div>
+
+<div class="toolbar-extra">
+  <label>URL a previsualizar:
+    <input type="text" id="urlInput" value="../index.html">
+  </label>
+  <button class="reload-btn" id="reloadBtn">Recargar</button>
+  <button class="rotate-btn" id="rotateBtn">Girar (portrait/landscape)</button>
+</div>
+
+<main>
+  <div id="single-view">
+    <div class="device-label" id="singleLabel"></div>
+    <div class="frame" id="singleFrame">
+      <div class="frame-screen" id="singleScreen"></div>
+    </div>
+  </div>
+
+  <div id="grid-view"></div>
+</main>
+
+<footer>
+  Herramienta interna de desarrollo — no forma parte del sitio publicado. No se sube a producción (ver ai/deploy-checklist.md).
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var DEVICES = [
+    { id: "se",       name: "iPhone SE",         w: 375,  h: 667,  type: "phone" },
+    { id: "i14",      name: "iPhone 14",         w: 390,  h: 844,  type: "phone" },
+    { id: "i14pm",    name: "iPhone 14 Pro Max", w: 430,  h: 932,  type: "phone" },
+    { id: "pixel7",   name: "Pixel 7",           w: 412,  h: 915,  type: "phone" },
+    { id: "galaxy",   name: "Galaxy S20",        w: 360,  h: 800,  type: "phone" },
+    { id: "ipadmini", name: "iPad Mini",         w: 768,  h: 1024, type: "tablet" },
+    { id: "ipadair",  name: "iPad Air",          w: 820,  h: 1180, type: "tablet" },
+    { id: "ipadpro",  name: "iPad Pro 12.9",     w: 1024, h: 1366, type: "tablet" },
+    { id: "laptop",   name: "Laptop",            w: 1366, h: 768,  type: "desktop" },
+    { id: "desktop",  name: "Desktop",           w: 1920, h: 1080, type: "desktop" }
+  ];
+
+  var state = {
+    deviceId: "i14",
+    landscape: false,
+    mode: "single"
+  };
+
+  var deviceBar = document.getElementById("deviceBar");
+  var urlInput = document.getElementById("urlInput");
+  var singleLabel = document.getElementById("singleLabel");
+  var singleFrame = document.getElementById("singleFrame");
+  var singleScreen = document.getElementById("singleScreen");
+  var singleView = document.getElementById("single-view");
+  var gridView = document.getElementById("grid-view");
+  var modeSingleBtn = document.getElementById("modeSingleBtn");
+  var modeGridBtn = document.getElementById("modeGridBtn");
+
+  function currentDevice() {
+    var d = DEVICES.filter(function (x) { return x.id === state.deviceId; })[0] || DEVICES[0];
+    var w = state.landscape ? d.h : d.w;
+    var h = state.landscape ? d.w : d.h;
+    return { id: d.id, name: d.name, type: d.type, w: w, h: h };
+  }
+
+  function buildDeviceBar() {
+    DEVICES.forEach(function (d) {
+      var btn = document.createElement("button");
+      btn.className = "device-btn" + (d.id === state.deviceId ? " active" : "");
+      btn.innerHTML = d.name + "<small>" + d.w + "×" + d.h + "</small>";
+      btn.addEventListener("click", function () {
+        state.deviceId = d.id;
+        refreshAll();
+      });
+      deviceBar.appendChild(btn);
+    });
+  }
+
+  function fitScale(w, h, maxW, maxH) {
+    return Math.min(maxW / w, maxH / h, 1);
+  }
+
+  function renderSingle() {
+    var d = currentDevice();
+    singleLabel.innerHTML = "<b>" + d.name + "</b> &nbsp;—&nbsp; " + d.w + " × " + d.h + " px";
+
+    singleFrame.className = "frame" + (d.type === "desktop" ? " frame--desktop" : "");
+
+    var maxW = window.innerWidth - 80;
+    var maxH = window.innerHeight - 260;
+    var scale = fitScale(d.w, d.h, maxW, maxH);
+
+    singleScreen.style.width = d.w + "px";
+    singleScreen.style.height = d.h + "px";
+    singleScreen.style.transform = "scale(" + scale + ")";
+    singleScreen.style.transformOrigin = "top center";
+
+    singleScreen.innerHTML = "";
+    var iframe = document.createElement("iframe");
+    iframe.src = urlInput.value;
+    iframe.style.width = d.w + "px";
+    iframe.style.height = d.h + "px";
+    singleScreen.appendChild(iframe);
+
+    // el frame contenedor ocupa el espacio ya escalado, para que no quede aire de mas
+    singleFrame.style.width = (d.w * scale) + "px";
+  }
+
+  function renderGrid() {
+    gridView.innerHTML = "";
+    var thumbW = 230; // ancho de la miniatura en pantalla
+    DEVICES.forEach(function (d) {
+      var scale = thumbW / d.w;
+      var thumbH = d.h * scale;
+
+      var card = document.createElement("div");
+      card.className = "grid-card";
+
+      var label = document.createElement("div");
+      label.className = "device-label";
+      label.innerHTML = "<b>" + d.name + "</b><br>" + d.w + "×" + d.h;
+      card.appendChild(label);
+
+      var thumb = document.createElement("div");
+      thumb.className = "grid-thumb";
+      thumb.style.width = thumbW + "px";
+
+      var inner = document.createElement("div");
+      inner.className = "grid-thumb-inner";
+      inner.style.width = thumbW + "px";
+      inner.style.height = Math.min(thumbH, 480) + "px";
+
+      var iframe = document.createElement("iframe");
+      iframe.src = urlInput.value;
+      iframe.style.width = d.w + "px";
+      iframe.style.height = d.h + "px";
+      iframe.style.transform = "scale(" + scale + ")";
+
+      inner.appendChild(iframe);
+      thumb.appendChild(inner);
+      card.appendChild(thumb);
+      gridView.appendChild(card);
+    });
+  }
+
+  function refreshAll() {
+    // repintar botones de dispositivo activos
+    Array.prototype.forEach.call(deviceBar.children, function (btn, i) {
+      btn.classList.toggle("active", DEVICES[i].id === state.deviceId);
+    });
+    if (state.mode === "single") {
+      renderSingle();
+    } else {
+      renderGrid();
+    }
+  }
+
+  modeSingleBtn.addEventListener("click", function () {
+    state.mode = "single";
+    modeSingleBtn.classList.add("active");
+    modeGridBtn.classList.remove("active");
+    singleView.classList.remove("hidden");
+    gridView.classList.remove("active");
+    renderSingle();
+  });
+
+  modeGridBtn.addEventListener("click", function () {
+    state.mode = "grid";
+    modeGridBtn.classList.add("active");
+    modeSingleBtn.classList.remove("active");
+    singleView.classList.add("hidden");
+    gridView.classList.add("active");
+    renderGrid();
+  });
+
+  document.getElementById("reloadBtn").addEventListener("click", refreshAll);
+  document.getElementById("rotateBtn").addEventListener("click", function () {
+    state.landscape = !state.landscape;
+    refreshAll();
+  });
+  urlInput.addEventListener("change", refreshAll);
+  window.addEventListener("resize", function () {
+    if (state.mode === "single") renderSingle();
+  });
+
+  buildDeviceBar();
+  refreshAll();
+})();
+</script>
+</body>
+</html>
