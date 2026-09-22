@@ -245,7 +245,8 @@ h2::after {
   font-size: 0.95rem;
 }
 .section--dark .accordion__panel-inner { color: #cfcfcf; }
-.accordion__panel-inner strong { color: inherit; }
+.accordion__panel-inner strong { color: var(--color-black); }
+.section--dark .accordion__panel-inner strong { color: var(--color-white); }
 
 /* ---------- Beneficios ---------- */
 .tags {

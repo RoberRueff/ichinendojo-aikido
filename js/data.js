@@ -103,6 +103,7 @@ const FAQ = [
     pregunta: "¿Necesito experiencia?",
     respuesta: "No. No necesitás conocimientos previos para empezar.",
     origen: "real",
+    enfasis: true,
   },
   {
     pregunta: "¿Me puedo lastimar?",
@@ -115,6 +116,7 @@ const FAQ = [
     respuesta:
       "Sí. La mayoría de quienes arrancan lo hacen en la adultez. No hay límite de edad para empezar ni se necesita una condición física especial.",
     origen: "redactada",
+    enfasis: true,
   },
   {
     pregunta: "¿Qué edad necesito tener?",
@@ -138,6 +140,7 @@ const FAQ = [
     respuesta:
       "Sí. Podés probar una clase gratis y sin compromiso antes de decidir si te sumás.",
     origen: "redactada",
+    enfasis: true,
   },
 ];
 
@@ -167,8 +170,8 @@ const TESTIMONIOS = [
     origen: "ejemplo",
   },
   {
-    nombre: "Nestor Fojo",
-    foto: "assets/img/nestor-fojo.jpg",
+    nombre: "Nestor Pace",
+    foto: "assets/img/nestor-pace.jpg",
     estrellas: 5,
     texto:
       "Llevo un tiempo entrenando en Ichinen Dojo y lo que más valoro es el respeto y la buena onda entre todos los alumnos.",

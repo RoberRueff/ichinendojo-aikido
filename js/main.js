@@ -120,8 +120,7 @@
       panel.setAttribute("data-open", isInitiallyOpen ? "true" : "false");
 
       var panelInner = el("div", "accordion__panel-inner");
-      if (index === 0 && item.origen === "real") {
-        // Replica el énfasis del sitio legacy: "**No.** No necesitás..."
+      if (item.enfasis) {
         var primeraPalabra = item.respuesta.split(" ")[0];
         var resto = item.respuesta.slice(primeraPalabra.length);
         var strong = document.createElement("strong");
