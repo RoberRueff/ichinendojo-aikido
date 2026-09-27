@@ -98,12 +98,12 @@
   }
 
   /* ---------- Acordeón FAQ ---------- */
-  // El alto del panel abierto se mide con scrollHeight (no un valor fijo en
-  // CSS), para que nunca recorte una respuesta más larga que lo esperado.
+  // max-height en px solo existe durante la animación; al terminar de abrir
+  // queda en "none", así el panel sigue al contenido si cambia su alto
+  // (carga de webfonts, rotación del celular, resize) y nunca recorta texto.
   function renderFaqAccordion(containerId, firstOpen) {
     var container = document.getElementById(containerId);
     if (!container) return;
-    var panelsAbiertos = [];
 
     FAQ.forEach(function (item, index) {
       var itemEl = el("div", "accordion__item");
@@ -118,6 +118,7 @@
       var panel = el("div", "accordion__panel");
       panel.id = panelId;
       panel.setAttribute("data-open", isInitiallyOpen ? "true" : "false");
+      if (isInitiallyOpen) panel.style.maxHeight = "none";
 
       var panelInner = el("div", "accordion__panel-inner");
       if (item.enfasis) {
@@ -135,6 +136,9 @@
       trigger.addEventListener("click", function () {
         var isOpen = panel.getAttribute("data-open") === "true";
         if (isOpen) {
+          // De "none" no se puede animar: fijar el alto actual, forzar reflow y cerrar.
+          panel.style.maxHeight = panel.scrollHeight + "px";
+          void panel.offsetHeight;
           panel.style.maxHeight = "0px";
           panel.setAttribute("data-open", "false");
           trigger.setAttribute("aria-expanded", "false");
@@ -145,17 +149,13 @@
         }
       });
 
-      if (isInitiallyOpen) panelsAbiertos.push({ panel: panel, inner: panelInner });
+      panel.addEventListener("transitionend", function () {
+        if (panel.getAttribute("data-open") === "true") panel.style.maxHeight = "none";
+      });
 
       itemEl.appendChild(trigger);
       itemEl.appendChild(panel);
       container.appendChild(itemEl);
-    });
-
-    // Recién acá el DOM tiene layout real: medimos scrollHeight de los que
-    // arrancan abiertos (ej. la primera pregunta).
-    panelsAbiertos.forEach(function (p) {
-      p.panel.style.maxHeight = p.inner.scrollHeight + "px";
     });
   }
 
@@ -259,9 +259,11 @@
   function initGaleria() {
     var track = document.getElementById("galeriaTrack");
     if (!track) return;
-    GALERIA.forEach(function (src) {
+    GALERIA.forEach(function (foto) {
       var img = document.createElement("img");
-      img.src = src;
+      img.src = foto.src;
+      img.width = foto.ancho;
+      img.height = foto.alto;
       img.alt = "Foto de práctica de Aikido en Ichinen Dojo";
       img.loading = "lazy";
       track.appendChild(img);
@@ -285,23 +287,43 @@
   function initContactForm() {
     var form = document.getElementById("contactForm");
     if (!form) return;
-    var fields = ["cfNombre", "cfEmail", "cfMensaje"].map(function (id) {
-      return document.getElementById(id);
-    });
+    var nombre = document.getElementById("cfNombre");
+    var email = document.getElementById("cfEmail");
+    var mensaje = document.getElementById("cfMensaje");
+    var campos = [nombre, email, mensaje];
+    var faltante = { cfNombre: "Ingresá tu nombre.", cfEmail: "Ingresá tu email.", cfMensaje: "Escribí tu mensaje." };
 
-    fields.forEach(function (f) {
-      f.addEventListener("blur", function () { f.setAttribute("data-touched", "true"); });
+    // Texto del error del campo, o "" si está bien. trim(): un campo con solo espacios no cuenta como completo.
+    function errorDe(f) {
+      if (!f.value.trim()) return faltante[f.id];
+      if (f === email && !f.validity.valid) return "Revisá el email: tiene que ser del tipo nombre@dominio.com.";
+      return "";
+    }
+
+    // Muestra u oculta el mensaje (asociado al campo con aria-describedby) y marca aria-invalid.
+    function validar(f) {
+      var msg = errorDe(f);
+      var p = document.getElementById(f.id + "Error");
+      p.textContent = msg;
+      p.hidden = !msg;
+      if (msg) f.setAttribute("aria-invalid", "true");
+      else f.removeAttribute("aria-invalid");
+      return !msg;
+    }
+
+    campos.forEach(function (f) {
+      // Al salir del campo solo se valida si escribió algo (ej. un email mal escrito);
+      // no se marca en rojo a quien solo recorre el formulario con Tab.
+      f.addEventListener("blur", function () { if (f.value) validar(f); });
+      // Si ya tenía error, se revalida mientras escribe para que el mensaje desaparezca al corregirlo.
+      f.addEventListener("input", function () { if (f.hasAttribute("aria-invalid")) validar(f); });
     });
 
     form.addEventListener("submit", function (ev) {
       ev.preventDefault();
-      var nombre = document.getElementById("cfNombre");
-      var email = document.getElementById("cfEmail");
-      var mensaje = document.getElementById("cfMensaje");
-
-      [nombre, email, mensaje].forEach(function (f) { f.setAttribute("data-touched", "true"); });
-
-      if (!nombre.value.trim() || !email.value.trim() || !mensaje.value.trim() || !form.checkValidity()) {
+      var invalidos = campos.filter(function (f) { return !validar(f); });
+      if (invalidos.length) {
+        invalidos[0].focus(); // el lector de pantalla anuncia el campo y su mensaje de error
         return;
       }
 
@@ -310,9 +332,9 @@
         " (" + email.value.trim() + "). " +
         mensaje.value.trim();
 
+      // Sin form.reset(): con "noopener" window.open siempre devuelve null y no se
+      // puede saber si el navegador bloqueó la ventana; así la persona no pierde lo que escribió.
       openWa(texto);
-      form.reset();
-      fields.forEach(function (f) { f.removeAttribute("data-touched"); });
     });
   }
 

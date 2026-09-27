@@ -6,11 +6,13 @@ Al no haber IA conversacional ni backend, los guardrails de este proyecto son de
 
 ## G1 — Guardrail de Contenido No Verificado
 
-Los 6 testimonios redactados (Cynthia, Daniel, Nestor Fojo, Gabriel, Ian, Lucía) y las 6 respuestas de FAQ redactadas (de 7 preguntas totales) **no son contenido real de alumnos** — fueron generados como placeholder razonable a pedido explícito del dueño del sitio, ante la ausencia del texto real (accordions colapsados / sin testimonios adicionales en el sitio legacy). Quedan marcados con `origen: 'ejemplo'` en los datos (`ai/taxonomy.md`).
+**Testimonios:** 6 de los 7 (Cynthia, Daniel, Nestor Pace, Gabriel, Ian, Lucía) se redactaron como placeholder y **el 2026-09-27 el usuario confirmó que cada persona que los firma los aprobó** (texto, nombre y foto). Quedan marcados `origen: 'aprobado'` en los datos (`ai/taxonomy.md`). Conviene conservar esos consentimientos por escrito (art. 53 CCyC, derecho a la imagen). **Cualquier testimonio nuevo o editado vuelve a necesitar la aprobación de quien lo firma** antes de publicarse.
 
-- **No** se presentan como citas textuales de una persona real verificada; son ilustrativos hasta que el dueño del dojo los reemplace.
-- Antes de cualquier deploy a producción con dominio público real, recordar al usuario (o listar en `ai/deploy-checklist.md`) qué bloques siguen siendo `ejemplo`/`redactada`.
-- Los únicos datos 100% reales y migrados: nombres/grados/horarios de instructores, direcciones y horarios de ambas sedes, teléfono, email, y el testimonio de Carlos Kostoff.
+**FAQ:** 6 de las 7 respuestas (de 7 preguntas totales) **no son contenido migrado**: se redactaron como placeholder razonable a pedido explícito del dueño del sitio, ante la ausencia del texto real (accordions colapsados en el sitio legacy). Quedan marcadas con `origen: 'redactada'`.
+
+- Las respuestas de FAQ `redactada` son ilustrativas hasta que el dueño del dojo las confirme o reemplace.
+- Antes de cualquier deploy a producción con dominio público real, recordar al usuario (o listar en `ai/deploy-checklist.md`) qué bloques siguen siendo `redactada`.
+- Los únicos datos 100% reales y migrados: nombres/grados/horarios de instructores, direcciones y horarios de ambas sedes, teléfono, email, y el testimonio de Carlos Kostoff. Los otros 6 testimonios no son migrados, pero están aprobados por sus firmantes.
 
 ## G2 — Guardrail Presupuestario
 

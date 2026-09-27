@@ -8,7 +8,8 @@ Procedimiento de deploy para un sitio **100% estático** (sin backend, sin build
 
 ## 0. Qué se sube y qué NO
 
-- **Se sube:** `index.html`, `css/`, `js/`, `assets/`, `favicon.ico`.
+- **Se sube:** `index.html`, `css/`, `js/`, `assets/`, `favicon.ico`, `vercel.json` (headers de seguridad y `Cache-Control`: fuentes 1 año `immutable`, imágenes 7 días. **Si se reemplaza una imagen, cambiarle el nombre**: con el mismo nombre, los visitantes pueden seguir viendo la vieja hasta 7 días).
+- **Excluido por `.vercelignore`:** `ai/`, `dev/`, `CLAUDE.md`, `README.md`, `.gitignore` — Vercel sin build sirve toda la raíz, así que sin ese archivo quedarían públicos.
 - **NO se sube / no hace falta en producción:** `ai/` (documentación interna), `dev/` (herramientas internas de desarrollo, ej. `dev/responsive-preview.html`), archivos fuente de las capturas del sitio legacy, cualquier borrador.
 - **No hay `.env`, no hay `config.php`, no hay secretos.** El único dato "sensible" (número de WhatsApp) ya está hardcodeado en el HTML/JS a propósito — no es un secreto.
 
@@ -37,6 +38,9 @@ D=https://tudominio.com.ar
 curl -s -o /dev/null -w "index: %{http_code}\n" $D/
 curl -s -o /dev/null -w "ai/ (debe ser 404): %{http_code}\n" $D/ai/rules.md
 curl -I $D/ | grep -i strict-transport-security   # confirma HTTPS/HSTS de Vercel
+curl -sI $D/ | grep -iE 'content-security-policy|x-frame-options|x-content-type'   # headers de vercel.json
+curl -sI $D/assets/fonts/inter-variable.woff2 | grep -i cache-control              # caché largo de assets
+curl -s -o /dev/null -w "og-image: %{http_code}\n" $D/assets/img/og-image.jpg
 ```
 
 Revisar manualmente en el navegador (desktop + mobile ~375px):
@@ -45,14 +49,15 @@ Revisar manualmente en el navegador (desktop + mobile ~375px):
 - El acordeón de FAQ abre/cierra sin saltos de layout.
 - El carrusel de galería funciona con flechas.
 - El formulario de contacto no deja enviar campos vacíos y arma bien el link de WhatsApp.
+- **Vista previa de WhatsApp:** si el dominio no es `ichinendojo.com.ar`, actualizar `canonical`, `og:url` y `og:image` en `index.html` (URLs absolutas). Validar con https://developers.facebook.com/tools/debug/ (WhatsApp cachea la preview).
 
 ## 4. Contenido pendiente de reemplazo (antes de ir a producción "de verdad")
 
 Ver `ai/guardrails.md` G1 y `ai/taxonomy.md` B.3/B.4 — repasar con el dueño del dojo:
 
-- [ ] 6 testimonios marcados `origen: 'ejemplo'` (Cynthia, Daniel, Nestor Fojo, Gabriel, Ian, Lucía) → reemplazar por texto real si existe, o confirmar que se publican como están.
+- [x] 6 testimonios (Cynthia, Daniel, Nestor Pace, Gabriel, Ian, Lucía) → aprobados por sus firmantes (2026-09-27), marcados `origen: 'aprobado'`. Verificar que ningún testimonio quede en `origen: 'ejemplo'`.
 - [ ] 6 respuestas de FAQ (de 7 preguntas) marcadas `origen: 'redactada'` → confirmar que reflejan cómo funciona el dojo realmente.
-- [ ] Links de redes sociales (Instagram/Facebook/X) siguen en `#` → completar con las URLs reales cuando se tengan.
+- [ ] Links de redes sociales: Instagram ✅ (https://www.instagram.com/aikidoichinendojo/), Facebook ✅ (https://www.facebook.com/ichinendojo); X sigue en `#` → completar con las URLs reales cuando se tengan.
 - [ ] Foto del instructor Rober Rueff sigue en placeholder (logo del dojo) → reemplazar si se consigue una foto real.
 
 ## 5. Tabla de errores típicos

@@ -42,7 +42,7 @@ Verificado en local con Playwright (Chromium headless, desktop 1400px y mobile 3
 | Cronograma (Club Biblioteca Artigas) | ✅ Extraído: 3 instructores, grados, días, horarios. |
 | Lugares donde practicarlo (2 sedes) | ✅ Extraído: direcciones, horarios, teléfono. |
 | FAQ — 1 de 7 preguntas con respuesta real | ✅ Completo: solo "Necesito experiencia?" tenía respuesta visible en la captura (accordion abierto). Las otras 6 fueron **redactadas** a pedido del usuario (ver `ai/guardrails.md` G1) e implementadas en `js/data.js`. |
-| Testimonios — 1 real + 6 nuevos | ⚠️ Parcial: 1 testimonio real (Carlos Kostoff, migrado tal cual). 6 testimonios **redactados** para alumnos identificados por foto (Cynthia Mizyrycki, Daniel Brgazzi, Nestor Fojo, Gabriel Acevedo, Ian Rueff, Lucía Ivorra) — expansión pedida explícitamente por el usuario, no estaba en el sitio legacy. |
+| Testimonios — 1 real + 6 nuevos | ✅ Completo: 1 testimonio real (Carlos Kostoff, migrado tal cual). 6 testimonios **redactados** para alumnos identificados por foto (Cynthia Mizyrycki, Daniel Brgazzi, Nestor Pace, Gabriel Acevedo, Ian Rueff, Lucía Ivorra) — expansión pedida explícitamente por el usuario, no estaba en el sitio legacy — y **aprobados por cada firmante** (2026-09-27, `origen: 'aprobado'`). |
 | Footer / contacto | ✅ Extraído: dirección, email, teléfono, redes (sin URLs reales → placeholder `#`). |
 | Fotos de acción (galería) | ✅ 8 fotos en B&N ya recibidas y disponibles para usar como asset. |
 | Fotos de personas (instructores/alumnos) | ✅ 7 fotos recibidas y mapeadas a nombre + rol (instructor/alumno). Falta foto de un instructor (Rober Rueff) → placeholder logo, decisión ya tomada. |
@@ -63,8 +63,8 @@ Verificado en local con Playwright (Chromium headless, desktop 1400px y mobile 3
 
 ## 5. Riesgos y Observaciones
 
-1. **Contenido de ejemplo mezclado con contenido real.** 6 testimonios y 6 respuestas de FAQ (de 7 preguntas) son redactados, no reales. Mitigado por el marcado `origen` en los datos (`ai/taxonomy.md`) y el checklist previo a producción (`ai/deploy-checklist.md` § 4) — pero requiere que un humano lo revise antes de publicar en el dominio real.
-2. **Nombre de instructor con fuente ambigua.** El sitio legacy dice "Nestor Pace" en el cronograma; el usuario identificó una foto separada como "Nestor Fojo" para un testimonio. Se confirmó que son tratamientos independientes (el instructor del cronograma mantiene "Pace"; el alumno del testimonio es "Nestor Fojo") — no es un error, son personas distintas con nombre de pila coincidente.
+1. **Contenido redactado mezclado con contenido real.** Los 6 testimonios redactados ya están aprobados por sus firmantes (2026-09-27). Quedan 6 respuestas de FAQ (de 7 preguntas) redactadas. Mitigado por el marcado `origen` en los datos (`ai/taxonomy.md`) y el checklist previo a producción (`ai/deploy-checklist.md` § 4) — pero requiere que un humano lo revise antes de publicar en el dominio real.
+2. ~~**Nombre de instructor con fuente ambigua.**~~ Resuelto: el commit `6fc06c7` corrigió el testimonio a "Nestor Pace" (antes figuraba "Nestor Fojo"), y el testimonio está aprobado por quien lo firma (2026-09-27).
 3. **Sin backup del sitio legacy más allá de las capturas.** No se tiene acceso al HTML/CSS fuente de WordPress, solo a capturas de pantalla. Si aparece contenido no capturado (ej. una pregunta de FAQ con matices no visibles), no hay forma de recuperarlo salvo pedirlo al usuario.
 
 ---
@@ -87,7 +87,8 @@ Verificado en local con Playwright (Chromium headless, desktop 1400px y mobile 3
 - [ ] Seguir `ai/deploy-checklist.md` (Vercel, dominio, verificación).
 
 **Fase 3 — Contenido real** ⏳ pendiente (depende del usuario)
-- [ ] Reemplazar testimonios/FAQ `origen: ejemplo|redactada` por contenido verificado.
+- [x] Testimonios redactados aprobados por sus firmantes (`origen: 'aprobado'`, 2026-09-27).
+- [ ] Confirmar o reemplazar las respuestas de FAQ `origen: 'redactada'`.
 - [ ] Completar links reales de redes sociales.
 - [ ] Conseguir foto real del instructor Rober Rueff (opcional).
 

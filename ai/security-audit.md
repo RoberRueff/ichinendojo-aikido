@@ -37,10 +37,11 @@ Superficie **mínima**: no hay servidor propio, no hay base de datos, no hay cla
 
 | Prioridad | Acción | Estado |
 |---|---|---|
-| 1 | Sanitizar (`encodeURIComponent`) los 3 campos del formulario antes de armar el link de WhatsApp | `PENDIENTE` (verificar al implementar) |
-| 2 | `rel="noopener noreferrer"` en todos los `target="_blank"` | `PENDIENTE` (verificar al implementar) |
-| 3 | Confirmar que `ai/` no se sirve públicamente tras el deploy | `PENDIENTE` (verificar post-deploy) |
-| 4 | (Opcional) Headers de seguridad vía `vercel.json` | `PENDIENTE` |
+| 1 | Sanitizar (`encodeURIComponent`) los 3 campos del formulario antes de armar el link de WhatsApp | ✅ Verificado (Playwright, 2026-09-27) |
+| 2 | `rel="noopener noreferrer"` en todos los `target="_blank"` | ✅ `window.open(..., "noopener,noreferrer")`, sin `target="_blank"` en el HTML |
+| 3 | Confirmar que `ai/` no se sirve públicamente tras el deploy | ✅ `.vercelignore` lo excluye (Vercel sin build sirve **toda** la raíz). Verificar post-deploy con `curl` → 404 |
+| 4 | Headers de seguridad vía `vercel.json` | ✅ CSP `'self'` sin `unsafe-inline`, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, COOP. **No agregar estilos/scripts inline ni recursos de terceros sin ajustar la CSP.** |
+| 5 | Sin terceros en runtime | ✅ Tipografías self-hosted en `assets/fonts/` (antes Google Fonts) |
 
 ---
 

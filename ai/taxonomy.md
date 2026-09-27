@@ -57,7 +57,7 @@ Datos reales: Carlos Kostoff (2do. Dan, foto real) · Rober Rueff (4to. Dan, sin
 | `foto` | `string` | Ruta a `assets/img/`. |
 | `estrellas` | `number` | 1–5. |
 | `texto` | `string` | Cita del testimonio. |
-| `origen` | `'real' \| 'ejemplo'` | **Metadato interno, no se muestra en el HTML.** Marca si el testimonio es el real (Carlos Kostoff, migrado del sitio viejo) o un texto de ejemplo redactado a pedir reemplazo (ver `ai/guardrails.md` G1). |
+| `origen` | `'real' \| 'aprobado' \| 'ejemplo'` | **Metadato interno, no se muestra en el HTML.** `real`: migrado del sitio viejo (Carlos Kostoff). `aprobado`: texto redactado y aprobado por la persona que lo firma (confirmado por el usuario el 2026-09-27). `ejemplo`: redactado **sin** aprobación: no publicar (ver `ai/guardrails.md` G1). |
 
 ### B.4 — Pregunta frecuente (`faq`)
 

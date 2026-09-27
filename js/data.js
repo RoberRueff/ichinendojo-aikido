@@ -15,7 +15,7 @@ const BENEFICIOS = [
     titulo: "Flexibilidad y Movilidad",
     texto:
       "El entrenamiento constante de Aikido trabaja el rango de movimiento de articulaciones y músculos, mejorando la flexibilidad general del cuerpo con ejercicios progresivos y seguros.",
-    foto: "assets/img/gallery-2.jpg",
+    foto: "assets/img/gallery-2.webp",
     origen: "redactada",
   },
   {
@@ -23,7 +23,7 @@ const BENEFICIOS = [
     titulo: "Fuerza y Coordinación",
     texto:
       "Las técnicas de Aikido requieren coordinar todo el cuerpo en cada movimiento, desarrollando fuerza funcional y una mejor conexión entre mente y cuerpo.",
-    foto: "assets/img/gallery-1.jpg",
+    foto: "assets/img/gallery-1.webp",
     origen: "redactada",
   },
   {
@@ -31,7 +31,7 @@ const BENEFICIOS = [
     titulo: "Concentración",
     texto:
       "Cada técnica exige atención plena al compañero y al propio cuerpo, entrenando la capacidad de concentrarse y estar presente en el momento.",
-    foto: "assets/img/gallery-3.jpg",
+    foto: "assets/img/gallery-3.webp",
     origen: "redactada",
   },
   {
@@ -39,7 +39,7 @@ const BENEFICIOS = [
     titulo: "Manejo del Estrés",
     texto:
       "La práctica regular ayuda a liberar tensiones acumuladas y a desarrollar herramientas para mantener la calma frente a situaciones de presión, dentro y fuera del tatami.",
-    foto: "assets/img/gallery-5.jpg",
+    foto: "assets/img/gallery-5.webp",
     origen: "redactada",
   },
   {
@@ -47,7 +47,7 @@ const BENEFICIOS = [
     titulo: "Disciplina y Crecimiento Personal",
     texto:
       "El camino del Aikido (Aikido significa justamente \"camino\") fomenta la constancia, el respeto y la superación personal a través de la práctica sostenida en el tiempo.",
-    foto: "assets/img/gallery-6.jpg",
+    foto: "assets/img/gallery-6.webp",
     origen: "redactada",
   },
 ];
@@ -58,7 +58,7 @@ const INSTRUCTORES = [
     grado: "2do. Dan",
     dia: "Lunes",
     horario: "19.30 – 20.30 hs",
-    foto: "assets/img/carlos-kostoff.jpg",
+    foto: "assets/img/carlos-kostoff.webp",
   },
   {
     nombre: "Rober Rueff",
@@ -95,9 +95,8 @@ const SEDES = [
       { dia: "Lunes", horario: "19 a 20.30 hs." },
       { dia: "Viernes", horario: "19 a 20.30 hs." },
     ],
-  },
-];
-
+  }
+]
 const FAQ = [
   {
     pregunta: "¿Necesito experiencia?",
@@ -126,7 +125,7 @@ const FAQ = [
   },
   {
     pregunta: "¿Cuánto dura una clase?",
-    respuesta: "Cada clase dura una hora.",
+    respuesta: "En Ichinen Dojo Central (Navarro) cada clase dura 1 hora; en Ichinen Dojo La Emiliana, 1 hora y media.",
     origen: "redactada",
   },
   {
@@ -147,7 +146,7 @@ const FAQ = [
 const TESTIMONIOS = [
   {
     nombre: "Carlos Kostoff",
-    foto: "assets/img/carlos-kostoff.jpg",
+    foto: "assets/img/carlos-kostoff.webp",
     estrellas: 5,
     texto:
       "Excelente lugar para empezar desde cero. El Sensei tiene muchísima paciencia y los compañeros son súper generosos al explicar las técnicas. El ambiente de la escuela es muy respetuoso y limpio. ¡Súper recomendado para los que buscan un arte marcial no competitivo en Capital!",
@@ -155,59 +154,60 @@ const TESTIMONIOS = [
   },
   {
     nombre: "Cynthia Mizyrycki",
-    foto: "assets/img/cynthia-mizyrycki.jpg",
+    foto: "assets/img/cynthia-mizyrycki.webp",
     estrellas: 5,
     texto:
       "Empecé sin saber nada y hoy es una de mis actividades favoritas de la semana. Los profes tienen mucha paciencia y el grupo es muy cálido.",
-    origen: "ejemplo",
+    origen: "aprobado",
   },
   {
     nombre: "Daniel Brgazzi",
-    foto: "assets/img/daniel-brgazzi.jpg",
+    foto: "assets/img/daniel-brgazzi.webp",
     estrellas: 5,
     texto:
       "Un arte marcial distinto: no hay competencia, se aprende a moverse con el cuerpo y a soltar tensiones. Lo recomiendo a cualquier edad.",
-    origen: "ejemplo",
+    origen: "aprobado",
   },
   {
     nombre: "Nestor Pace",
-    foto: "assets/img/nestor-pace.jpg",
+    foto: "assets/img/nestor-pace.webp",
     estrellas: 5,
     texto:
       "Llevo un tiempo entrenando en Ichinen Dojo y lo que más valoro es el respeto y la buena onda entre todos los alumnos.",
-    origen: "ejemplo",
+    origen: "aprobado",
   },
   {
     nombre: "Gabriel Acevedo",
-    foto: "assets/img/gabriel-acevedo.jpg",
+    foto: "assets/img/gabriel-acevedo.webp",
     estrellas: 5,
     texto:
       "Buenísimo para trabajar el equilibrio y bajar el estrés después de la oficina. El ambiente del dojo es muy tranquilo.",
-    origen: "ejemplo",
+    origen: "aprobado",
   },
   {
     nombre: "Ian Rueff",
-    foto: "assets/img/ian-rueff.jpg",
+    foto: "assets/img/ian-rueff.webp",
     estrellas: 5,
     texto:
       "Arranqué de casualidad y ya no puedo faltar a una clase. Se aprende mucho y siempre con buena onda.",
-    origen: "ejemplo",
+    origen: "aprobado",
   },
   {
     nombre: "Lucía Ivorra",
-    foto: "assets/img/lucia-ivorra.jpg",
+    foto: "assets/img/lucia-ivorra.webp",
     estrellas: 5,
     texto:
       "Me encantó desde la primera clase de prueba. Se nota el cuidado en cómo enseñan cada técnica, paso a paso.",
-    origen: "ejemplo",
+    origen: "aprobado",
   },
 ];
 
+// ancho/alto reales del archivo: el navegador reserva el lugar antes de que cargue (sin saltos de layout).
 const GALERIA = [
-  "assets/img/gallery-1.jpg",
-  "assets/img/gallery-2.jpg",
-  "assets/img/gallery-3.jpg",
-  "assets/img/gallery-4.jpg",
-  "assets/img/gallery-5.jpg",
-  "assets/img/gallery-6.jpg",
+  { src: "assets/img/gallery-1.webp", ancho: 300, alto: 168 },
+  { src: "assets/img/gallery-2.webp", ancho: 276, alto: 183 },
+  { src: "assets/img/gallery-3.webp", ancho: 284, alto: 177 },
+  { src: "assets/img/gallery-4.webp", ancho: 300, alto: 168 },
+  { src: "assets/img/gallery-5.webp", ancho: 275, alto: 183 },
+  { src: "assets/img/gallery-6.webp", ancho: 250, alto: 187 },
 ];

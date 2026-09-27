@@ -37,7 +37,7 @@
 
 - **Fidelidad de contenido:** el sitio nuevo replica el legacy en estructura y copy (R5 de `ai/rules.md`); no se agregan secciones nuevas sin pedido explícito.
 - **Sin backend:** cualquier tentación de agregar un formulario "real" con servidor propio choca con R2 de `ai/rules.md` — requiere decisión explícita del usuario y pasar por `ai/security-audit.md`.
-- **Contenido de ejemplo:** 6 testimonios y 6 respuestas de FAQ (de 7 preguntas) son redactados, no reales — no presentarlos ni tratarlos como verificados (G1 de `ai/guardrails.md`).
+- **Contenido redactado:** 6 testimonios fueron redactados y **aprobados por quienes los firman** (`origen: 'aprobado'`); 6 respuestas de FAQ (de 7 preguntas) son redactadas (`origen: 'redactada'`) — no tratarlas como verificadas (G1 de `ai/guardrails.md`).
 - **Idioma:** todo el contenido y las respuestas al usuario van en español (Argentina), con tildes.
 
 ## Paso 5 — Checklist de Salida del Loader

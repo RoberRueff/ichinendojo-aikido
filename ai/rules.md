@@ -14,11 +14,11 @@ Toda conversión (CTA, botón de teléfono, formulario de contacto) resuelve en 
 
 ## R3 — Regla de Consistencia de Datos de Contacto
 
-El teléfono (`11 5939-7079` / `+54 11 9 5939-7079`), el email (`info@ichinendojo.com.ar`) y las direcciones de ambas sedes deben ser **idénticos** en todas las secciones donde aparecen (hero/FAQ, cronograma, tarjetas de sede, footer). Si se corrige un dato, se corrige en las cuatro secciones a la vez — ver `ai/checks.md` para la verificación.
+El teléfono (`11 5939-7079` / `+54 9 11 5939-7079`), el email (`info@ichinendojo.com.ar`) y las direcciones de ambas sedes deben ser **idénticos** en todas las secciones donde aparecen (hero/FAQ, cronograma, tarjetas de sede, footer). Si se corrige un dato, se corrige en las cuatro secciones a la vez — ver `ai/checks.md` para la verificación.
 
 ## R4 — Regla de Trazabilidad de Contenido No Verificado
 
-Todo contenido que no proviene del sitio legacy (testimonios redactados, respuestas de FAQ redactadas) se marca internamente con `origen: 'ejemplo'` / `'redactada'` en los datos (`ai/taxonomy.md` B.3/B.4). Esto **no se muestra en el HTML público** (no hay etiqueta "ejemplo" visible en la tarjeta), pero permite a cualquier sesión futura saber qué reemplazar por contenido real sin tener que releer todo el sitio. Antes de un deploy a producción con dominio real, revisar `ai/deploy-checklist.md` § "Contenido pendiente de reemplazo".
+Todo contenido que no proviene del sitio legacy (testimonios redactados, respuestas de FAQ redactadas) se marca internamente con `origen` en los datos (testimonios: `'aprobado'` si quien lo firma lo aprobó, `'ejemplo'` si no; FAQ: `'redactada'`) (`ai/taxonomy.md` B.3/B.4). Esto **no se muestra en el HTML público** (no hay etiqueta "ejemplo" visible en la tarjeta), pero permite a cualquier sesión futura saber qué reemplazar por contenido real sin tener que releer todo el sitio. Antes de un deploy a producción con dominio real, revisar `ai/deploy-checklist.md` § "Contenido pendiente de reemplazo".
 
 ## R5 — Regla de Fidelidad al Contenido Migrado
 
