@@ -18,7 +18,9 @@ Landing page de **Ichinen Dojo**, escuela de Aikido con dos sedes en CABA (Agron
 
 ## Stack
 
-- **Objetivo (y único):** HTML/CSS/JS estático, sin build system, sin framework, sin backend, sin base de datos. Deploy en **Vercel**. Toda conversión resuelve en un link `wa.me` (WhatsApp) — ver `ai/architecture.md` y `ai/rules.md`.
+> ⚠️ **Hosting real: Apache en DonWeb (cPanel, `public_html`), no Vercel** (verificado 2026-09-28: cabecera `Server: Apache`). `vercel.json` y `.vercelignore` se borraron porque no aplican. Las cabeceras de seguridad, la caché y las redirecciones se configuran en el `.htaccess` del servidor, y lo que no se debe publicar (`ai/`, `dev/`, `CLAUDE.md`, `README.md`) simplemente no se sube. Las menciones a Vercel en este documento quedan como referencia histórica.
+
+- **Objetivo (y único):** HTML/CSS/JS estático, sin build system, sin framework, sin backend, sin base de datos. Hosting en **Apache (DonWeb/cPanel)**; no en Vercel. Toda conversión resuelve en un link `wa.me` (WhatsApp) — ver `ai/architecture.md` y `ai/rules.md`.
 - **Reemplaza a:** un sitio legacy en WordPress + Elementor + WPForms (de ahí viene todo el contenido migrado — ver `ai/analysis.md`).
 - **Estado actual:** ver `ai/analysis.md` — puede que el código (`index.html`/`css/`/`js/`) todavía no exista si esta guía se lee antes de la Fase 1 de implementación.
 
@@ -31,7 +33,7 @@ Landing page de **Ichinen Dojo**, escuela de Aikido con dos sedes en CABA (Agron
 | `js/main.js` | Acordeón FAQ, carrusel de galería, menú mobile, lógica de conversión a WhatsApp (sanitizada — ver `ai/guardrails.md` G3). |
 | `assets/img/` | Fotos de acción en B&N, logo del dojo, fotos de instructores/alumnos, `og-image.jpg` (vista previa 1200×630). |
 | `assets/fonts/` | Oswald e Inter (woff2 variables, self-hosted: el sitio no llama a Google). |
-| `vercel.json` · `.vercelignore` | Headers de seguridad (CSP estricta: nada inline, todo `'self'`) y exclusión de `ai/`, `dev/` y docs del deploy. |
+| `.htaccess` (solo en el servidor, todavía no versionado) | Headers de seguridad, CSP (incluye GTM/GA), caché y redirecciones. `vercel.json` y `.vercelignore` se borraron el 2026-09-28: el sitio no corre en Vercel. |
 | `ai/` | Documentación: protocolo, análisis, arquitectura, taxonomía, reglas, guardrails, checks, auditoría, deploy. |
 
 Detalle completo del mapa de archivos y del contenido en `ai/context-loader.md` (Paso 3) y `ai/taxonomy.md`.

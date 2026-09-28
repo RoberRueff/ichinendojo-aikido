@@ -1,5 +1,7 @@
 # Auditoría de Seguridad — Ichinen Dojo
 
+> ⚠️ **Hosting real: Apache en DonWeb (cPanel, `public_html`), no Vercel** (verificado 2026-09-28: cabecera `Server: Apache`). `vercel.json` y `.vercelignore` se borraron porque no aplican. Las cabeceras de seguridad, la caché y las redirecciones se configuran en el `.htaccess` del servidor, y lo que no se debe publicar (`ai/`, `dev/`, `CLAUDE.md`, `README.md`) simplemente no se sube. Las menciones a Vercel en este documento quedan como referencia histórica.
+
 > **Estado:** el sitio todavía **no está implementado** (proyecto en fase de diseño/contenido al momento de escribir este documento, 2026-09-20). Esto no es una auditoría de código desplegado como la de `agencia-infouno-ia/ai/security-audit.md` — es la **guía de riesgos a verificar** en cuanto el sitio esté construido, dada la arquitectura elegida (estático, sin backend). Reejecutar como auditoría real post-implementación.
 
 ---

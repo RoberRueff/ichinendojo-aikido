@@ -1,5 +1,7 @@
 # Deploy Checklist — Vercel
 
+> ⚠️ **Hosting real: Apache en DonWeb (cPanel, `public_html`), no Vercel** (verificado 2026-09-28: cabecera `Server: Apache`). `vercel.json` y `.vercelignore` se borraron porque no aplican. Las cabeceras de seguridad, la caché y las redirecciones se configuran en el `.htaccess` del servidor, y lo que no se debe publicar (`ai/`, `dev/`, `CLAUDE.md`, `README.md`) simplemente no se sube. Las menciones a Vercel en este documento quedan como referencia histórica.
+
 Procedimiento de deploy para un sitio **100% estático** (sin backend, sin build step, sin variables de entorno). Mucho más simple que el deploy de `agencia-infouno-ia` (DonWeb/cPanel + PHP + MySQL): acá no hay `config.php` que crear a mano ni base de datos que armar.
 
 > Fuente de verdad técnica: `ai/`. _Creado: 2026-09-20._
