@@ -1,6 +1,4 @@
-# Deploy Checklist — Vercel
-
-> ⚠️ **Hosting real: Apache en DonWeb (cPanel, `public_html`), no Vercel** (verificado 2026-09-28: cabecera `Server: Apache`). `vercel.json` y `.vercelignore` se borraron porque no aplican. Las cabeceras de seguridad, la caché y las redirecciones se configuran en el `.htaccess` del servidor, y lo que no se debe publicar (`ai/`, `dev/`, `CLAUDE.md`, `README.md`) simplemente no se sube. Las menciones a Vercel en este documento quedan como referencia histórica.
+# Deploy Checklist — DonWeb / Apache
 
 Procedimiento de deploy para un sitio **100% estático** (sin backend, sin build step, sin variables de entorno). Mucho más simple que el deploy de `agencia-infouno-ia` (DonWeb/cPanel + PHP + MySQL): acá no hay `config.php` que crear a mano ni base de datos que armar.
 
@@ -8,30 +6,31 @@ Procedimiento de deploy para un sitio **100% estático** (sin backend, sin build
 
 ---
 
-## 0. Qué se sube y qué NO
+## 0. Qué se publica y qué NO
 
-- **Se sube:** `index.html`, `css/`, `js/`, `assets/`, `favicon.ico`, `vercel.json` (headers de seguridad y `Cache-Control`: fuentes 1 año `immutable`, imágenes 7 días. **Si se reemplaza una imagen, cambiarle el nombre**: con el mismo nombre, los visitantes pueden seguir viendo la vieja hasta 7 días).
-- **Excluido por `.vercelignore`:** `ai/`, `dev/`, `CLAUDE.md`, `README.md`, `.gitignore` — Vercel sin build sirve toda la raíz, así que sin ese archivo quedarían públicos.
-- **NO se sube / no hace falta en producción:** `ai/` (documentación interna), `dev/` (herramientas internas de desarrollo, ej. `dev/responsive-preview.html`), archivos fuente de las capturas del sitio legacy, cualquier borrador.
-- **No hay `.env`, no hay `config.php`, no hay secretos.** El único dato "sensible" (número de WhatsApp) ya está hardcodeado en el HTML/JS a propósito — no es un secreto.
+- **Se publica:** `index.html`, `css/`, `js/`, `assets/`, `favicon.ico` y `.htaccess`.
+- **No se publica:** `ai/`, `dev/`, `CLAUDE.md`, `README.md`, archivos de trabajo y borradores.
+- **Regla:** copiar únicamente el artefacto público a `public_html`; no copiar el repositorio completo.
+- **Caché:** `.htaccess` define la política HTTP de caché. Si se reemplaza un asset conservando el mismo nombre, invalidar caché o versionarlo.
+- **No hay `.env`, `config.php` ni secretos.**
 
----
+## 1. Publicación en DonWeb
 
-## 1. Primer deploy (con Vercel CLI)
+1. Actualizar el contenido en GitHub.
+2. Copiar únicamente el artefacto público a `public_html` mediante el método de administración disponible en DonWeb.
+3. Verificar que `.htaccess` esté en la raíz pública.
+4. Comprobar HTTPS y el comportamiento del sitio en producción.
 
-```bash
-# desde la raíz del proyecto
-vercel          # deploy de preview, pide login la primera vez
-vercel --prod   # deploy de producción
-```
+
+Verificar desde navegador o con herramientas HTTP que la portada responde `200`, HTTPS está activo, los headers definidos en `.htaccess` aparecen y los archivos internos no son accesibles.
 
 Vercel detecta un sitio estático automáticamente (sin `package.json` con build script) y lo sirve tal cual desde la raíz. No hace falta `vercel.json` salvo que se agreguen headers de seguridad opcionales (ver `ai/security-audit.md`).
 
 ## 2. Dominio
 
-1. Vercel Dashboard → proyecto → **Settings → Domains**.
-2. Agregar `ichinendojo.com.ar` (o el dominio real) y seguir las instrucciones de DNS (registros `A`/`CNAME` según si es dominio raíz o subdominio).
-3. Esperar la verificación (puede tardar según el TTL del DNS). HTTPS se emite automáticamente (Let's Encrypt vía Vercel) una vez verificado.
+1. Verificar en DonWeb/cPanel que `ichinendojo.com.ar` apunte al hosting correcto.
+2. Confirmar que Apache sirve el dominio por HTTPS.
+3. Si se modifica DNS, esperar la propagación correspondiente.
 
 ## 3. Verificación (no asumir — comprobar)
 
@@ -51,7 +50,7 @@ Revisar manualmente en el navegador (desktop + mobile ~375px):
 - El acordeón de FAQ abre/cierra sin saltos de layout.
 - El carrusel de galería funciona con flechas.
 - El formulario de contacto no deja enviar campos vacíos y arma bien el link de WhatsApp.
-- **Vista previa de WhatsApp:** si el dominio no es `ichinendojo.com.ar`, actualizar `canonical`, `og:url` y `og:image` en `index.html` (URLs absolutas). Validar con https://developers.facebook.com/tools/debug/ (WhatsApp cachea la preview).
+- **Vista previa de WhatsApp:** si el dominio no es `ichinendojo.com.ar`, actualizar `canonical`, `og:url` y `og:image` en `index.html` (URLs absolutas). Validar con la herramienta de depuración de Meta (WhatsApp cachea la preview).
 
 ## 4. Contenido pendiente de reemplazo (antes de ir a producción "de verdad")
 
@@ -67,7 +66,7 @@ Ver `ai/guardrails.md` G1 y `ai/taxonomy.md` B.3/B.4 — repasar con el dueño d
 | Síntoma | Causa | Fix |
 |---|---|---|
 | Botón de WhatsApp no abre nada | Número mal formateado (con `+` o espacios) en `wa.me/` | Usar `5491159397079`, sin símbolos |
-| `vercel` sube también `ai/` al dominio público | Falta `.vercelignore` | Agregar `ai/` a `.vercelignore` si no se quiere ni siquiera intentar servirlo (igual da 404 al no estar enlazado, pero es más prolijo) |
+| `ai/` aparece públicamente | Se publicó el repositorio completo | Publicar solo el artefacto público y mantener reglas defensivas en `.htaccess` |
 | Dominio no verifica HTTPS | DNS mal apuntado o TTL alto | Revisar registros en el panel del dominio, esperar propagación |
 | Formulario abre WhatsApp con `undefined` en el mensaje | Campo del formulario sin `encodeURIComponent` o `value` mal leído | Revisar `js/main.js`, ver `ai/guardrails.md` G3 |
 
