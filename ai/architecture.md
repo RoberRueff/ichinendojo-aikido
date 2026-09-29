@@ -1,7 +1,5 @@
 # Arquitectura Técnica del Sistema (Architecture)
 
-> ⚠️ **Hosting real: Apache en DonWeb (cPanel, `public_html`), no Vercel** (verificado 2026-09-28: cabecera `Server: Apache`). `vercel.json` y `.vercelignore` se borraron porque no aplican. Las cabeceras de seguridad, la caché y las redirecciones se configuran en el `.htaccess` del servidor, y lo que no se debe publicar (`ai/`, `dev/`, `CLAUDE.md`, `README.md`) simplemente no se sube. El repositorio es la fuente única de verdad del código y la configuración versionable.
-
 La arquitectura es **deliberadamente simple**: sitio estático, sin backend, sin base de datos. El único "sistema" externo es WhatsApp, usado como canal de conversión.
 
 > ⚠️ **Estado actual vs objetivo:** el sitio **legacy** (el que se está reemplazando) corre en **WordPress + Elementor + WPForms** (confirmado por la admin bar visible en las capturas: "Editar con Elementor", "WPForms", usuario `Rober Rueff`). El sitio **objetivo** de este documento es un **HTML/CSS/JS estático**, publicado en **Apache/DonWeb (`public_html`)**, sin WordPress, sin PHP, sin MySQL. Ver la brecha y el plan de migración en [`ai/analysis.md`](analysis.md).
