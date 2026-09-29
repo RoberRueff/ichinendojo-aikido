@@ -5,13 +5,13 @@
    * Ichinen Dojo — medición GA4 / Google Ads
    *
    * CONFIGURACIÓN:
-   * 1. Reemplazar GA4_MEASUREMENT_ID por el ID real de Google Analytics 4 (G-XXXXXXXXXX).
+   * 1. GA4 Measurement ID configurado: G-PMFMSEBWJ6.
    * 2. En GA4 marcar "whatsapp_click" como evento clave.
    * 3. Vincular GA4 con Google Ads e importar "whatsapp_click" como conversión principal.
    *
    * No se envían nombre, email ni mensaje a Google Analytics.
    */
-  var GA4_MEASUREMENT_ID = "";
+  var GA4_MEASUREMENT_ID = "G-PMFMSEBWJ6";
 
   window.dataLayer = window.dataLayer || [];
 
