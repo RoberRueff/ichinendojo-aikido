@@ -61,7 +61,7 @@ La auditoría integral original se conserva en el historial de Git. Este documen
 
 1. Publicar únicamente el artefacto público en DonWeb (`public_html`).
 2. Versionar y verificar `.htaccess` para HTTPS, headers de seguridad, caché y protección de archivos internos.
-3. Implementar y verificar medición de conversiones de Google Ads/GA4 antes de optimizar campañas.
+3. Implementar y verificar medición de conversiones de Google Ads/GA4 antes de optimizar campañas. Eventos mínimos: `whatsapp_click`, `contact_form_submit`, `phone_click`, `location_click`; conversión principal: `whatsapp_click`.
 4. Completar SEO técnico/local: JSON-LD, robots.txt, sitemap.xml y datos de sedes.
 5. Mantener actualizados horarios, testimonios, FAQ y enlaces sociales.
 

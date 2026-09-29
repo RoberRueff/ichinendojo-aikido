@@ -98,3 +98,24 @@ Verificado en local con Playwright (Chromium headless, desktop 1400px y mobile 3
 ---
 
 > Referencias: visión en `ai/architecture.md` · datos en `ai/taxonomy.md` · reglas en `ai/rules.md` · seguridad en `ai/guardrails.md` · validaciones en `ai/checks.md`.
+
+
+## Medición de conversiones — estado actualizado 2026-09-29
+
+El sitio incorpora una capa de medición preparada para GA4/Google Ads en `js/analytics.js`.
+
+Eventos definidos:
+- `whatsapp_click`: conversión principal.
+- `contact_form_submit`: envío válido del formulario; no envía nombre, email ni mensaje a Analytics.
+- `phone_click`: clic sobre enlaces `tel:`.
+- `location_click`: clic sobre la dirección de una sede hacia Google Maps.
+
+El recorrido que debe poder observarse es:
+
+`Google Ads → visita → landing → CTA → WhatsApp`
+
+y, como eventos secundarios:
+
+`visita → whatsapp_click / phone_click / location_click / contact_form_submit`
+
+Importante: el código de instrumentación está implementado, pero la medición de Google todavía requiere cargar el **Measurement ID real de GA4** en `js/analytics.js`. No se debe considerar que Google Ads tiene conversiones activas hasta verificar un evento real en GA4/DebugView y después importarlo/marcarlo como conversión en Google Ads.

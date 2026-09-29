@@ -52,6 +52,11 @@
     document.querySelectorAll(".js-cta-whatsapp").forEach(function (a) {
       a.addEventListener("click", function (ev) {
         ev.preventDefault();
+        if (typeof window.ichinenTrack === "function") {
+          window.ichinenTrack("whatsapp_click", {
+            cta_location: a.getAttribute("data-analytics-location") || "unknown"
+          });
+        }
         openWa(a.getAttribute("data-mensaje"));
       });
     });
@@ -190,7 +195,12 @@
       var h3 = el("h3", null, "");
       h3.textContent = sede.nombre;
       var dir = el("p", "sede__direccion", "");
-      dir.textContent = sede.direccion;
+      var mapLink = el("a", "js-location-link", sede.direccion);
+      mapLink.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(sede.direccion + ", Argentina");
+      mapLink.target = "_blank";
+      mapLink.rel = "noopener noreferrer";
+      mapLink.setAttribute("data-location-name", sede.nombre);
+      dir.appendChild(mapLink);
 
       var clasesWrap = el("div", "sede__clases");
       var label = el("p", "sede__clases-label", "Clases días y horas:");
@@ -208,9 +218,9 @@
       clasesWrap.appendChild(label);
       clasesWrap.appendChild(list);
 
-      var telBtn = el("a", "btn btn--outline js-cta-whatsapp", "📞 " + DOJO.telefonoLocal);
-      telBtn.href = "#";
-      telBtn.setAttribute("data-mensaje", "Hola! Quería consultar por las clases en " + sede.nombre + ".");
+      var telBtn = el("a", "btn btn--outline js-phone", "📞 " + DOJO.telefonoLocal);
+      telBtn.href = "tel:+" + DOJO.telefonoIntl;
+      telBtn.setAttribute("data-analytics-location", "sede-" + sede.id);
 
       var ctaBtn = el("a", "btn btn--accent js-cta-whatsapp", "Probá una clase gratis...");
       ctaBtn.href = "#";
@@ -331,6 +341,12 @@
         "Hola! Soy " + nombre.value.trim() +
         " (" + email.value.trim() + "). " +
         mensaje.value.trim();
+
+      if (typeof window.ichinenTrack === "function") {
+        window.ichinenTrack("contact_form_submit", {
+          form_name: "contact"
+        });
+      }
 
       // Sin form.reset(): con "noopener" window.open siempre devuelve null y no se
       // puede saber si el navegador bloqueó la ventana; así la persona no pierde lo que escribió.
