@@ -7,8 +7,8 @@
 ## 0. Preámbulo
 
 - **Proyecto:** Ichinen Dojo — Aikido Argentina (landing de captación, dos sedes en CABA).
-- **Stack objetivo:** HTML/CSS/JS estático, sin build, sin framework, sin backend. Deploy en Vercel. Conversión exclusiva vía WhatsApp (`wa.me`).
-- **Estado:** ver `ai/analysis.md` — a la fecha de creación de este documento, el código todavía no está implementado (solo la documentación de `ai/` y el contenido ya relevado del sitio legacy en WordPress).
+- **Stack objetivo:** HTML/CSS/JS estático, sin build, sin framework, sin backend. Publicación en Apache/DonWeb (`public_html`). Conversión exclusiva vía WhatsApp (`wa.me`).
+- **Estado:** ver `ai/analysis.md` — a la fecha de creación de este documento, el código del sitio ya está implementado; el estado y las brechas vigentes están en `ai/analysis.md`.
 - **Idioma de trabajo:** Español (con tildes).
 - **Referencia de arquitectura:** ver `ai/architecture.md`.
 
@@ -40,7 +40,7 @@
 ### Fase 5 — Cierre
 - [ ] Resumir qué cambió y por qué.
 - [ ] Anotar contenido pendiente de reemplazo (testimonios/FAQ de ejemplo, ver `ai/deploy-checklist.md` § 4) si aplica.
-- [ ] No hacer commit/push salvo que el usuario lo pida.
+- [ ] No modificar `main` directamente salvo autorización explícita; para cambios estructurales, trabajar en una rama y abrir PR.
 
 ---
 
