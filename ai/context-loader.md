@@ -12,18 +12,18 @@
 
 ## Paso 2 — Arquitectura
 
-> **IMPORTANTE — leer primero `ai/analysis.md`.** El proyecto reemplaza un sitio legacy en WordPress + Elementor por un sitio nuevo estático; a la fecha de este documento, el código del sitio nuevo **todavía no está implementado** (solo existe la documentación de `ai/` y el contenido ya relevado).
+> **IMPORTANTE — leer primero `ai/analysis.md`.** El proyecto reemplaza un sitio legacy en WordPress + Elementor por un sitio nuevo estático; a la fecha de este documento, el código del sitio nuevo ya está implementado y verificado localmente.
 
-**Arquitectura objetivo (`ai/architecture.md`):** HTML/CSS/JS estático sin build ni framework, desplegado en Vercel. Sin backend, sin base de datos, sin IA. La única interacción dinámica es client-side (acordeón FAQ, carrusel, menú mobile) y toda conversión redirige a WhatsApp (`wa.me`).
+**Arquitectura objetivo (`ai/architecture.md`):** HTML/CSS/JS estático sin build ni framework, publicado en Apache/DonWeb (`public_html`). Sin backend, sin base de datos, sin IA. La única interacción dinámica es client-side (acordeón FAQ, carrusel, menú mobile) y toda conversión redirige a WhatsApp (`wa.me`).
 
 ## Paso 3 — Mapa de Archivos
 
 | Recurso | Propósito |
 |---|---|
-| `index.html` | Página única con las 10 secciones ancladas (`ai/taxonomy.md` A). *(pendiente de crear)* |
-| `css/style.css` | Estilos: paleta negro/blanco/rojo-naranja, tipografía condensada + sans-serif. *(pendiente)* |
-| `js/main.js` | Acordeón, carrusel, menú mobile, lógica de conversión a WhatsApp (sanitización en `ai/guardrails.md` G3). *(pendiente)* |
-| `assets/img/` | Fotos de acción (B&N), logo del dojo, fotos de instructores/alumnos. *(pendiente de copiar/optimizar)* |
+| `index.html` | Página única con las secciones ancladas. |
+| `css/style.css` | Estilos del sitio. |
+| `js/main.js` | Acordeón, carrusel, menú mobile y conversión a WhatsApp. |
+| `assets/img/` | Imágenes del sitio. |
 | `ai/analysis.md` | **Estado actual vs objetivo + roadmap (LEER PRIMERO).** |
 | `ai/architecture.md` | Arquitectura técnica objetivo. |
 | `ai/taxonomy.md` | Estructura de secciones + esquema de datos de contenido (instructores, sedes, testimonios, FAQ). |
@@ -31,7 +31,7 @@
 | `ai/guardrails.md` | Barreras de contenido (testimonios/FAQ de ejemplo) y de seguridad del formulario (sanitización, `noopener`). |
 | `ai/checks.md` | Verificaciones antes de cada deploy (links de WhatsApp, formulario, consistencia de contacto, responsive, accesibilidad). |
 | `ai/security-audit.md` | Riesgos a verificar una vez implementado (superficie mínima por ser estático). |
-| `ai/deploy-checklist.md` | Procedimiento de deploy en Vercel + checklist de contenido pendiente de reemplazo. |
+| `ai/deploy-checklist.md` | Procedimiento de publicación en DonWeb/Apache + checklist de contenido pendiente de reemplazo. |
 
 ## Paso 4 — Restricciones y Prioridades
 
