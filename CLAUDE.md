@@ -18,11 +18,11 @@ Landing page de **Ichinen Dojo**, escuela de Aikido con dos sedes en CABA (Agron
 
 ## Stack
 
-> ⚠️ **Hosting real: Apache en DonWeb (cPanel, `public_html`), no Vercel** (verificado 2026-09-28: cabecera `Server: Apache`). Las cabeceras de seguridad, la caché y las redirecciones se configuran en `.htaccess`. Solo el artefacto público se copia a `public_html`; `ai/`, `dev/`, `CLAUDE.md` y `README.md` no se publican. El repositorio es la fuente única de verdad del código y la configuración versionable.
+> ⚠️ **Hosting real: Apache en DonWeb (cPanel, `public_html`), en DonWeb** (verificado 2026-09-28: cabecera `Server: Apache`). Las cabeceras de seguridad, la caché y las redirecciones se configuran en `.htaccess`. Solo el artefacto público se copia a `public_html`; `ai/`, `dev/`, `CLAUDE.md` y `README.md` no se publican. El repositorio es la fuente única de verdad del código y la configuración versionable.
 
 - **Objetivo (y único):** HTML/CSS/JS estático, sin build system, sin framework, sin backend, sin base de datos. Hosting en **Apache (DonWeb/cPanel)**; en DonWeb. Toda conversión resuelve en un link `wa.me` (WhatsApp) — ver `ai/architecture.md` y `ai/rules.md`.
 - **Reemplaza a:** un sitio legacy en WordPress + Elementor + WPForms (de ahí viene todo el contenido migrado — ver `ai/analysis.md`).
-- **Estado actual:** ver `ai/analysis.md` — puede que el código (`index.html`/`css/`/`js/`) todavía no exista si esta guía se lee antes de la Fase 1 de implementación.
+- **Estado actual:** ver `ai/analysis.md` — el código (`index.html`/`css/`/`js/`) ya existe y fue verificado localmente.
 
 ## Mapa rápido
 
@@ -33,7 +33,7 @@ Landing page de **Ichinen Dojo**, escuela de Aikido con dos sedes en CABA (Agron
 | `js/main.js` | Acordeón FAQ, carrusel de galería, menú mobile, lógica de conversión a WhatsApp (sanitizada — ver `ai/guardrails.md` G3). |
 | `assets/img/` | Fotos de acción en B&N, logo del dojo, fotos de instructores/alumnos, `og-image.jpg` (vista previa 1200×630). |
 | `assets/fonts/` | Oswald e Inter (woff2 variables, self-hosted: el sitio no llama a Google). |
-| `.htaccess` (configuración versionada de Apache) | Headers de seguridad, CSP (incluye GTM/GA), caché y redirecciones. El sitio se publica en Apache/DonWeb y las reglas de servidor viven en `.htaccess`. |
+| `.htaccess` (configuración versionada de Apache) | Headers de seguridad, CSP, caché y redirecciones. El sitio se publica en Apache/DonWeb y las reglas de servidor viven en `.htaccess`. |
 | `ai/` | Documentación: protocolo, análisis, arquitectura, taxonomía, reglas, guardrails, checks, auditoría, deploy. |
 
 Detalle completo del mapa de archivos y del contenido en `ai/context-loader.md` (Paso 3) y `ai/taxonomy.md`.
@@ -51,7 +51,7 @@ No hay suite de tests automatizada: verificar el comportamiento real (acordeón,
 - **Seguridad:** sanitizar (`encodeURIComponent`) cualquier input de usuario antes de armar el link `wa.me`; nunca `innerHTML` con texto de usuario; `rel="noopener noreferrer"` en todo `target="_blank"`. Detalle en `ai/guardrails.md` G3.
 - **Contenido redactado:** 6 testimonios fueron redactados y **aprobados por quienes los firman** (`origen: 'aprobado'`, 2026-09-27); un testimonio nuevo o editado necesita otra vez esa aprobación. 6 respuestas de FAQ (de 7 preguntas) son redactadas (`origen: 'redactada'`) — no presentarlas como verificadas (`ai/guardrails.md` G1, `ai/taxonomy.md` B.3/B.4).
 - **Consistencia de contacto:** teléfono, email y direcciones deben coincidir en las 4 secciones donde aparecen (R3).
-- **Cambios mínimos y reversibles;** respetar el estilo del código existente. No hacer commit/push salvo que el usuario lo pida.
+- **Cambios mínimos y reversibles;** respetar el estilo del código existente. No modificar `main` directamente salvo autorización explícita; usar ramas y PR para cambios estructurales.
 
 ## 🔎 Estado técnico y pendientes
 
