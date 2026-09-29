@@ -24,8 +24,6 @@ Procedimiento de deploy para un sitio **100% estático** (sin backend, sin build
 
 Verificar desde navegador o con herramientas HTTP que la portada responde `200`, HTTPS está activo, los headers definidos en `.htaccess` aparecen y los archivos internos no son accesibles.
 
-Vercel detecta un sitio estático automáticamente (sin `package.json` con build script) y lo sirve tal cual desde la raíz. No hace falta `vercel.json` salvo que se agreguen headers de seguridad opcionales (ver `ai/security-audit.md`).
-
 ## 2. Dominio
 
 1. Verificar en DonWeb/cPanel que `ichinendojo.com.ar` apunte al hosting correcto.
@@ -34,15 +32,7 @@ Vercel detecta un sitio estático automáticamente (sin `package.json` con build
 
 ## 3. Verificación (no asumir — comprobar)
 
-```bash
-D=https://tudominio.com.ar
-curl -s -o /dev/null -w "index: %{http_code}\n" $D/
-curl -s -o /dev/null -w "ai/ (debe ser 404): %{http_code}\n" $D/ai/rules.md
-curl -I $D/ | grep -i strict-transport-security   # confirma HTTPS/HSTS de Vercel
-curl -sI $D/ | grep -iE 'content-security-policy|x-frame-options|x-content-type'   # headers de vercel.json
-curl -sI $D/assets/fonts/inter-variable.woff2 | grep -i cache-control              # caché largo de assets
-curl -s -o /dev/null -w "og-image: %{http_code}\n" $D/assets/img/og-image.jpg
-```
+Verificar desde navegador o herramientas HTTP: portada `200`; HTTPS activo; headers definidos por `.htaccess`; caché de assets; y respuesta `404` para `/ai/`, `/dev/`, `/CLAUDE.md` y `/README.md`.
 
 Revisar manualmente en el navegador (desktop + mobile ~375px):
 - Los 4 botones "Probá una clase gratis" abren WhatsApp con mensaje prellenado.
