@@ -61,6 +61,17 @@
       return;
     }
 
+    if (
+      !target.classList.contains("js-cta-whatsapp") &&
+      (target.href.indexOf("https://wa.me/") === 0 ||
+       target.href.indexOf("https://api.whatsapp.com/") === 0)
+    ) {
+      trackEvent("whatsapp_click", {
+        cta_location: target.getAttribute("data-analytics-location") || "unknown"
+      });
+      return;
+    }
+
     if (target.classList.contains("js-location-link")) {
       trackEvent("location_click", {
         location_name: target.getAttribute("data-location-name") || "unknown"
