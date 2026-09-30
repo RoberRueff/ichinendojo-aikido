@@ -1,0 +1,60 @@
+# Ichinen Dojo — configuración del hosting (DonWeb, Apache). Es la ÚNICA configuración del servidor:
+# headers de seguridad, caché, HTTPS, compresión y bloqueo de archivos internos. Subirla a public_html/.
+
+# ---------- Sin listado de carpetas (ej. /assets/img/) ----------
+Options -Indexes
+
+# ---------- Tipos MIME: con "nosniff" el navegador rechaza fuentes/imágenes con tipo incorrecto ----------
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+  AddType font/woff2 .woff2
+  AddCharset UTF-8 .html .css .js
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # ---------- Forzar HTTPS ----------
+  # Requiere el certificado SSL activo en DonWeb (Let's Encrypt gratis desde el panel).
+  # Si el sitio todavía no tiene SSL, comentar estas dos líneas o no carga.
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # ---------- Documentación y herramientas internas: 404 aunque se suban por error ----------
+  RewriteRule ^(ai|dev)(/|$) - [R=404,L]
+  RewriteRule ^(CLAUDE\.md|README\.md|\.gitignore|\.git|\.ht[^/]*)(/|$) - [R=404,L]
+</IfModule>
+
+# ---------- Headers de seguridad ----------
+# CSP con Google Tag Manager (GTM-WL8G43D5) + GA4. El 'sha256-…' autoriza SOLO el script inline de GTM del <head>:
+# si se modifica ese script (aunque sea un espacio), hay que recalcular el hash o GTM deja de cargar.
+# Tags de GTM que no sean GA4 (Meta Pixel, Google Ads, HTML personalizado) necesitan sumar sus dominios acá.
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'sha256-ripbvZnvrKVZ02znUvBOoSEaM09cVFl0DogVACXstBI=' https://*.googletagmanager.com; style-src 'self'; img-src 'self' data: https://*.google-analytics.com https://analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com https://www.google.com.ar; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com https://*.g.doubleclick.net https://www.google.com https://www.google.com.ar; frame-src https://www.googletagmanager.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  Header always set X-Frame-Options "DENY"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  # Sin Cross-Origin-Opener-Policy: "same-origin" corta window.opener y Tag Assistant (vista previa de GTM) no puede conectarse.
+  # HSTS: activar solo cuando HTTPS funcione bien en el dominio (el navegador lo recuerda por 1 año).
+  # Header always set Strict-Transport-Security "max-age=31536000"
+
+  # ---------- Caché ----------
+  # HTML/CSS/JS no tienen hash en el nombre: el navegador revalida en cada visita (304 si no cambió).
+  <FilesMatch "\.(html|css|js)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  # Fuentes: no cambian nunca.
+  <FilesMatch "\.woff2$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # Imágenes: 7 días. Si se reemplaza una imagen, subirla con otro nombre.
+  <FilesMatch "\.(webp|jpg|png|ico)$">
+    Header set Cache-Control "public, max-age=604800, stale-while-revalidate=86400"
+  </FilesMatch>
+</IfModule>
+
+# ---------- Compresión (las imágenes WebP y las fuentes WOFF2 ya vienen comprimidas) ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript image/svg+xml
+</IfModule>

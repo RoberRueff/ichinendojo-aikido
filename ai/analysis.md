@@ -6,7 +6,7 @@
 
 ## 1. Resumen Ejecutivo
 
-El sitio ya está **implementado y verificado localmente** (`index.html` + `css/` + `js/` + `assets/img/`). El punto de partida no fue código sino un **sitio legacy en WordPress + Elementor + WPForms** ("Aikido Ichinen Dojo", visible en capturas con la admin bar de WP y usuario `Rober Rueff`), del cual se extrajo el contenido completo (copy, estructura, horarios, direcciones, fotos) para reconstruirlo como **sitio estático HTML/CSS/JS**, sin backend, con conversión exclusiva vía WhatsApp. Falta únicamente el **deploy a Vercel** (`ai/deploy-checklist.md`) y el reemplazo del contenido de ejemplo por contenido real cuando el dueño del dojo lo tenga.
+El sitio ya está **implementado y verificado localmente** (`index.html` + `css/` + `js/` + `assets/img/`). El punto de partida no fue código sino un **sitio legacy en WordPress + Elementor + WPForms** ("Aikido Ichinen Dojo", visible en capturas con la admin bar de WP y usuario `Rober Rueff`), del cual se extrajo el contenido completo (copy, estructura, horarios, direcciones, fotos) para reconstruirlo como **sitio estático HTML/CSS/JS**, sin backend, con conversión exclusiva vía WhatsApp. Está **publicado en DonWeb** (https://ichinendojo.com.ar, Apache + `.htaccess` — ver `ai/deploy-checklist.md`). Falta el reemplazo del contenido de ejemplo por contenido real cuando el dueño del dojo lo tenga.
 
 A diferencia de otros proyectos del mismo autor (ej. `agencia-infouno-ia`, que migra *hacia* WordPress+IA+MySQL), acá la migración va en sentido **inverso**: de WordPress hacia un estático simple, porque el sitio no necesita backend, leads persistidos ni IA — es una landing de captación para una escuela de artes marciales con un único objetivo de conversión (agendar una clase de prueba por WhatsApp).
 
@@ -56,7 +56,7 @@ Verificado en local con Playwright (Chromium headless, desktop 1400px y mobile 3
 | **Frontend** | HTML/CSS/JS estático, sin build | ✅ Implementado (`index.html` + `css/style.css`) | — |
 | **Contenido** | Fiel al legacy, con testimonios/FAQ ampliados (marcados `origen`) | ✅ Implementado en `js/data.js` | — |
 | **Conversión** | Único canal: WhatsApp (`wa.me`), sin backend (R2 de `ai/rules.md`) | ✅ Implementado y verificado (`js/main.js`, `encodeURIComponent` en los 3 vectores: CTA, botones de sede, formulario) | — |
-| **Hosting** | Vercel, deploy estático | Sin deploy todavía | Ejecutar `ai/deploy-checklist.md` |
+| **Hosting** | DonWeb (Apache, `public_html/` + `.htaccess`) | ✅ Publicado en https://ichinendojo.com.ar con HTTPS y `.htaccess` activo | Subir cambios según `ai/deploy-checklist.md` |
 | **Seguridad** | Sanitización del formulario, `rel="noopener"` (`ai/guardrails.md` G3) | ✅ Verificado con Playwright: caracteres especiales (`&`, `<`, `>`) quedan bien codificados en la URL de WhatsApp; `window.open` usa `noopener,noreferrer` | Re-verificar en producción tras el deploy |
 
 ---
@@ -83,8 +83,8 @@ Verificado en local con Playwright (Chromium headless, desktop 1400px y mobile 3
 - [x] `assets/img/`: fotos optimizadas y copiadas (acción + personas + logo + favicon).
 - [x] Verificación con Playwright (desktop + mobile, accordion, formulario, WhatsApp links) — sin errores de consola.
 
-**Fase 2 — Deploy** ⏳ pendiente
-- [ ] Seguir `ai/deploy-checklist.md` (Vercel, dominio, verificación).
+**Fase 2 — Deploy** ✅ publicado en DonWeb
+- [x] Sitio en https://ichinendojo.com.ar (DonWeb, `.htaccess` con headers de seguridad). Procedimiento en `ai/deploy-checklist.md`.
 
 **Fase 3 — Contenido real** ⏳ pendiente (depende del usuario)
 - [x] Testimonios redactados aprobados por sus firmantes (`origen: 'aprobado'`, 2026-09-27).

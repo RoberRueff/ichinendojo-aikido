@@ -28,7 +28,7 @@ El formulario de contacto toma texto libre del usuario (nombre, email, mensaje) 
 
 ## G4 — Guardrail de Datos Personales
 
-El sitio **no persiste ningún dato** del visitante (no hay backend, no hay base de datos, no hay `fetch` a servidor propio). Todo lo que el usuario escribe en el formulario viaja directo a WhatsApp (a un número del dojo, no a un tercero) y no queda guardado en ningún lado por el sitio. Si en el futuro se agrega analytics (GA4, Meta Pixel), debe declararse en un aviso de cookies/privacidad — hoy no existe porque no hace falta (no hay tracking).
+El sitio **no persiste ningún dato** del visitante (no hay backend, no hay base de datos, no hay `fetch` a servidor propio). Todo lo que el usuario escribe en el formulario viaja directo a WhatsApp (a un número del dojo, no a un tercero) y no queda guardado en ningún lado por el sitio. **Desde 2026-09-28 el sitio carga Google Tag Manager (`GTM-WL8G43D5`)** por pedido del usuario: cada visita envía datos (IP, navegador, páginas) a Google y, según los tags que se publiquen en el contenedor, cookies de analytics. **Pendiente: aviso de privacidad/cookies** (Ley 25.326) que lo declare — no hay todavía. Los eventos que el sitio manda (`clic_whatsapp`, `envio_formulario`) **nunca incluyen nombre, email ni mensaje** del formulario: mantenerlo así.
 
 ---
 

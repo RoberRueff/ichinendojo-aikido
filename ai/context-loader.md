@@ -14,7 +14,7 @@
 
 > **IMPORTANTE — leer primero `ai/analysis.md`.** El proyecto reemplaza un sitio legacy en WordPress + Elementor por un sitio nuevo estático; a la fecha de este documento, el código del sitio nuevo **todavía no está implementado** (solo existe la documentación de `ai/` y el contenido ya relevado).
 
-**Arquitectura objetivo (`ai/architecture.md`):** HTML/CSS/JS estático sin build ni framework, desplegado en Vercel. Sin backend, sin base de datos, sin IA. La única interacción dinámica es client-side (acordeón FAQ, carrusel, menú mobile) y toda conversión redirige a WhatsApp (`wa.me`).
+**Arquitectura objetivo (`ai/architecture.md`):** HTML/CSS/JS estático sin build ni framework, publicado en DonWeb (Apache + `.htaccess`). Sin backend, sin base de datos, sin IA. La única interacción dinámica es client-side (acordeón FAQ, carrusel, menú mobile) y toda conversión redirige a WhatsApp (`wa.me`).
 
 ## Paso 3 — Mapa de Archivos
 
@@ -31,7 +31,7 @@
 | `ai/guardrails.md` | Barreras de contenido (testimonios/FAQ de ejemplo) y de seguridad del formulario (sanitización, `noopener`). |
 | `ai/checks.md` | Verificaciones antes de cada deploy (links de WhatsApp, formulario, consistencia de contacto, responsive, accesibilidad). |
 | `ai/security-audit.md` | Riesgos a verificar una vez implementado (superficie mínima por ser estático). |
-| `ai/deploy-checklist.md` | Procedimiento de deploy en Vercel + checklist de contenido pendiente de reemplazo. |
+| `ai/deploy-checklist.md` | Procedimiento de deploy en DonWeb + checklist de contenido pendiente de reemplazo. |
 
 ## Paso 4 — Restricciones y Prioridades
 

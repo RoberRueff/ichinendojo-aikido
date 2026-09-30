@@ -37,7 +37,7 @@ flowchart TD
 | Interactividad | `js/main.js` vanilla: acordeón FAQ, carrusel, menú mobile |
 | Conversión | Links `wa.me` (WhatsApp), sanitizados client-side |
 | Datos | No existen — no hay backend ni base de datos |
-| Hosting | Apache en DonWeb (cPanel). Headers y caché en `.htaccess` |
+| Hosting | DonWeb (Apache): archivos en `public_html/` + `.htaccess` |
 
 > Arquitectura completa en [`ai/architecture.md`](ai/architecture.md).
 

@@ -7,7 +7,7 @@
 ## 0. Preámbulo
 
 - **Proyecto:** Ichinen Dojo — Aikido Argentina (landing de captación, dos sedes en CABA).
-- **Stack objetivo:** HTML/CSS/JS estático, sin build, sin framework, sin backend. Deploy en Vercel. Conversión exclusiva vía WhatsApp (`wa.me`).
+- **Stack objetivo:** HTML/CSS/JS estático, sin build, sin framework, sin backend. Hosting en DonWeb (Apache + `.htaccess`). Conversión exclusiva vía WhatsApp (`wa.me`).
 - **Estado:** ver `ai/analysis.md` — a la fecha de creación de este documento, el código todavía no está implementado (solo la documentación de `ai/` y el contenido ya relevado del sitio legacy en WordPress).
 - **Idioma de trabajo:** Español (con tildes).
 - **Referencia de arquitectura:** ver `ai/architecture.md`.

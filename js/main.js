@@ -14,6 +14,8 @@
     return "https://wa.me/" + DOJO.telefonoIntl + "?text=" + texto;
   }
 
+  var WA_CLASE_GRATIS = "https://api.whatsapp.com/send/?phone=5491159397079&text=Hola%21+Quer%C3%ADa+consultar+por+las+clases+de+Aikido.&type=phone_number&app_absent=0";
+
   function openWa(mensaje) {
     var url = waLink(mensaje);
     window.open(url, "_blank", "noopener,noreferrer");
@@ -165,15 +167,15 @@
     if (!container) return;
     INSTRUCTORES.forEach(function (inst) {
       var card = el("div", "cronograma__instructor");
-      var h4 = el("h4", null, "");
-      h4.textContent = inst.nombre;
+      var h3 = el("h3", null, "");
+      h3.textContent = inst.nombre;
       var grado = el("p", null, "");
       grado.textContent = inst.grado;
       var horario = el("p", null, "");
       horario.textContent = inst.horario;
       var dia = el("p", null, "");
       dia.textContent = inst.dia;
-      card.appendChild(h4);
+      card.appendChild(h3);
       card.appendChild(grado);
       card.appendChild(horario);
       card.appendChild(dia);
@@ -208,13 +210,14 @@
       clasesWrap.appendChild(label);
       clasesWrap.appendChild(list);
 
-      var telBtn = el("a", "btn btn--outline js-cta-whatsapp", "📞 " + DOJO.telefonoLocal);
-      telBtn.href = "#";
-      telBtn.setAttribute("data-mensaje", "Hola! Quería consultar por las clases en " + sede.nombre + ".");
+      var telBtn = el("a", "btn btn--outline js-phone", "📞 " + DOJO.telefonoLocal);
+      telBtn.href = "tel:+541159397079";
+      telBtn.setAttribute("data-analytics-location", "sede-" + sede.id);
 
-      var ctaBtn = el("a", "btn btn--accent js-cta-whatsapp", "Probá una clase gratis...");
-      ctaBtn.href = "#";
-      ctaBtn.setAttribute("data-mensaje", "Hola! Quiero probar una clase gratis en " + sede.nombre + ".");
+      var ctaBtn = el("a", "btn btn--accent", "Probá una clase gratis...");
+      ctaBtn.href = WA_CLASE_GRATIS;
+      ctaBtn.target = "_blank";
+      ctaBtn.rel = "noopener noreferrer";
 
       wrap.appendChild(h3);
       wrap.appendChild(dir);
@@ -331,6 +334,9 @@
         "Hola! Soy " + nombre.value.trim() +
         " (" + email.value.trim() + "). " +
         mensaje.value.trim();
+
+      // Evento para GTM/GA4 ("envio_formulario"). Sin datos personales: ni nombre, ni email, ni mensaje.
+      if (window.dataLayer) window.dataLayer.push({ event: "envio_formulario" });
 
       // Sin form.reset(): con "noopener" window.open siempre devuelve null y no se
       // puede saber si el navegador bloqueó la ventana; así la persona no pierde lo que escribió.
