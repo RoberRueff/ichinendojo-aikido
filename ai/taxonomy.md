@@ -54,10 +54,12 @@ Datos reales: Carlos Kostoff (2do. Dan, foto real) · Rober Rueff (4to. Dan, sin
 | Campo | Tipo | Descripción |
 |---|---|---|
 | `nombre` | `string` | Nombre del alumno. |
-| `foto` | `string` | Ruta a `assets/img/`. |
+| `foto` | `string` (opcional) | Ruta a `assets/img/`. Sin foto, la tarjeta se muestra sin avatar. |
 | `estrellas` | `number` | 1–5. |
 | `texto` | `string` | Cita del testimonio. |
 | `origen` | `'real' \| 'aprobado' \| 'ejemplo'` | **Metadato interno, no se muestra en el HTML.** `real`: migrado del sitio viejo (Carlos Kostoff). `aprobado`: texto redactado y aprobado por la persona que lo firma (confirmado por el usuario el 2026-09-27). `ejemplo`: redactado **sin** aprobación: no publicar (ver `ai/guardrails.md` G1). |
+
+**Alta, modificación y baja de testimonios (2026-09-29):** el formulario "Dejá tu opinión" (`#opinionForm`, debajo de la grilla) arma un mensaje de WhatsApp con nombre, estrellas, texto y la autorización de publicación, y el alumno manda la foto en el mismo chat. El sitio no guarda nada (R2). Para publicar una opinión: optimizar la foto (WebP, 96 px, sin EXIF) en `assets/img/` y agregar la entrada en `TESTIMONIOS` con `origen: 'aprobado'`, conservando el chat como constancia del consentimiento. Para modificar o dar de baja, editar o borrar la entrada (y su foto). Evento GTM: `envio_opinion`.
 
 ### B.4 — Pregunta frecuente (`faq`)
 

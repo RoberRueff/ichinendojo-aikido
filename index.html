@@ -199,6 +199,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="container">
         <h2>Qué opinan nuestros alumnos?</h2>
         <div class="testimonios__grid" id="testimoniosGrid"></div>
+
+        <details class="opinion">
+          <summary class="btn btn--outline">¿Entrenás con nosotros? Dejá tu opinión</summary>
+          <form id="opinionForm" class="contact-form opinion__form" novalidate>
+            <label for="opNombre" class="sr-only">Nombre y apellido (obligatorio)</label>
+            <input type="text" id="opNombre" name="nombre" placeholder="Nombre y apellido*" autocomplete="name"
+              maxlength="80" aria-describedby="opNombreError" required>
+            <p class="contact-form__error" id="opNombreError" hidden></p>
+            <fieldset id="opEstrellas" class="opinion__estrellas" tabindex="-1" aria-describedby="opEstrellasError">
+              <legend>Calificación*</legend>
+              <label><input type="radio" name="estrellas" value="1"><span>1 ★</span></label>
+              <label><input type="radio" name="estrellas" value="2"><span>2 ★</span></label>
+              <label><input type="radio" name="estrellas" value="3"><span>3 ★</span></label>
+              <label><input type="radio" name="estrellas" value="4"><span>4 ★</span></label>
+              <label><input type="radio" name="estrellas" value="5"><span>5 ★</span></label>
+            </fieldset>
+            <p class="contact-form__error" id="opEstrellasError" hidden></p>
+            <label for="opTexto" class="sr-only">Tu opinión (obligatorio)</label>
+            <textarea id="opTexto" name="texto" placeholder="Tu opinión*" rows="4" maxlength="500"
+              aria-describedby="opTextoError" required></textarea>
+            <p class="contact-form__error" id="opTextoError" hidden></p>
+            <label class="opinion__consentimiento">
+              <input type="checkbox" id="opConsentimiento" aria-describedby="opConsentimientoError" required>
+              Autorizo a Ichinen Dojo a publicar en su sitio mi nombre, mi opinión y, si la mando, mi foto.
+            </label>
+            <p class="contact-form__error" id="opConsentimientoError" hidden></p>
+            <button type="submit" class="btn btn--accent">Enviar por WhatsApp</button>
+            <p class="contact-form__nota">Tu opinión se abre en WhatsApp. Si querés que aparezca tu foto, mandala en
+              ese mismo chat. La revisamos antes de publicarla. <a href="privacidad.html">Política de privacidad</a>.</p>
+          </form>
+        </details>
       </div>
     </section>
 
@@ -259,12 +290,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             aria-describedby="cfMensajeError" required></textarea>
           <p class="contact-form__error" id="cfMensajeError" hidden></p>
           <button type="submit" class="btn btn--accent">Enviar</button>
+          <p class="contact-form__nota">Tu mensaje se abre en WhatsApp; el sitio no lo guarda.
+            <a href="privacidad.html">Política de privacidad</a>.</p>
         </form>
       </div>
     </div>
 
     <div class="container footer-bottom">
       <p>Copyright © 2026 Aikido Ichinen Dojo</p>
+      <p><a href="privacidad.html">Política de privacidad y cookies</a></p>
       <p>Powered by Aikido Ichinen Dojo</p>
     </div>
   </footer>

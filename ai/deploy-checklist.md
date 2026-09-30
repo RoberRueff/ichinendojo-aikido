@@ -10,7 +10,7 @@ Procedimiento de deploy para un sitio **100% estático** (sin backend, sin build
 
 ## 0. Qué se sube y qué NO
 
-- **Se sube a `public_html/`:** `index.html`, `favicon.ico`, `robots.txt`, `sitemap.xml`, **`.htaccess`**, `css/`, `js/`, `assets/`.
+- **Se sube a `public_html/`:** `index.html`, `privacidad.html`, `favicon.ico`, `robots.txt`, `sitemap.xml`, **`.htaccess`**, `css/`, `js/`, `assets/`.
 - **NO se sube nunca:** `ai/` (documentación interna), `dev/` (herramientas internas, ej. `dev/responsive-preview.html`), `CLAUDE.md`, `README.md`, `.gitignore`, `.git/`. Si se suben por error, el `.htaccess` les devuelve 404, pero no hay que depender de eso.
 - **`.htaccess` es obligatorio:** sin él se pierden la CSP y los headers de seguridad, el caché, la compresión, los tipos MIME de `.webp`/`.woff2` y la redirección a HTTPS. Es un archivo oculto: en el Finder se ve con ⌘⇧. y en FileZilla con *Servidor → Forzar mostrar archivos ocultos*.
 - **No hay `.env`, no hay `config.php`, no hay secretos.** El único dato "sensible" (número de WhatsApp) ya está en el HTML/JS a propósito — no es un secreto.

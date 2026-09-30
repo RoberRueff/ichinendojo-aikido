@@ -235,18 +235,20 @@
     TESTIMONIOS.forEach(function (t) {
       var card = el("div", "testimonio");
       var head = el("div", "testimonio__head");
-      var foto = document.createElement("img");
-      foto.className = "testimonio__foto";
-      foto.src = t.foto;
-      foto.alt = t.nombre;
-      foto.loading = "lazy";
       var nameWrap = el("div");
       var nombre = el("p", "testimonio__nombre", "");
       nombre.textContent = t.nombre;
       var estrellas = el("p", "testimonio__estrellas", "★".repeat(t.estrellas) + "☆".repeat(5 - t.estrellas));
       nameWrap.appendChild(nombre);
       nameWrap.appendChild(estrellas);
-      head.appendChild(foto);
+      if (t.foto) { // la foto es opcional
+        var foto = document.createElement("img");
+        foto.className = "testimonio__foto";
+        foto.src = t.foto;
+        foto.alt = t.nombre;
+        foto.loading = "lazy";
+        head.appendChild(foto);
+      }
       head.appendChild(nameWrap);
 
       var texto = el("p", "testimonio__texto", "");
@@ -286,24 +288,10 @@
     });
   }
 
-  /* ---------- Formulario de contacto -> WhatsApp ---------- */
-  function initContactForm() {
-    var form = document.getElementById("contactForm");
-    if (!form) return;
-    var nombre = document.getElementById("cfNombre");
-    var email = document.getElementById("cfEmail");
-    var mensaje = document.getElementById("cfMensaje");
-    var campos = [nombre, email, mensaje];
-    var faltante = { cfNombre: "Ingresá tu nombre.", cfEmail: "Ingresá tu email.", cfMensaje: "Escribí tu mensaje." };
-
-    // Texto del error del campo, o "" si está bien. trim(): un campo con solo espacios no cuenta como completo.
-    function errorDe(f) {
-      if (!f.value.trim()) return faltante[f.id];
-      if (f === email && !f.validity.valid) return "Revisá el email: tiene que ser del tipo nombre@dominio.com.";
-      return "";
-    }
-
-    // Muestra u oculta el mensaje (asociado al campo con aria-describedby) y marca aria-invalid.
+  /* ---------- Formularios -> WhatsApp (contacto y opinión) ---------- */
+  // Valida los campos con errorDe(f) (texto del error o "") y, si todo está bien, arma el mensaje y lo abre en WhatsApp.
+  // Los mensajes van en <p id="{campo}Error">, asociados al campo con aria-describedby.
+  function initFormWa(form, campos, errorDe, armarTexto, evento) {
     function validar(f) {
       var msg = errorDe(f);
       var p = document.getElementById(f.id + "Error");
@@ -317,9 +305,10 @@
     campos.forEach(function (f) {
       // Al salir del campo solo se valida si escribió algo (ej. un email mal escrito);
       // no se marca en rojo a quien solo recorre el formulario con Tab.
-      f.addEventListener("blur", function () { if (f.value) validar(f); });
-      // Si ya tenía error, se revalida mientras escribe para que el mensaje desaparezca al corregirlo.
+      f.addEventListener("blur", function () { if (f.type !== "checkbox" && f.value) validar(f); });
+      // Si ya tenía error, se revalida al cambiar para que el mensaje desaparezca al corregirlo.
       f.addEventListener("input", function () { if (f.hasAttribute("aria-invalid")) validar(f); });
+      f.addEventListener("change", function () { if (f.hasAttribute("aria-invalid")) validar(f); });
     });
 
     form.addEventListener("submit", function (ev) {
@@ -329,19 +318,57 @@
         invalidos[0].focus(); // el lector de pantalla anuncia el campo y su mensaje de error
         return;
       }
-
-      var texto =
-        "Hola! Soy " + nombre.value.trim() +
-        " (" + email.value.trim() + "). " +
-        mensaje.value.trim();
-
-      // Evento para GTM/GA4 ("envio_formulario"). Sin datos personales: ni nombre, ni email, ni mensaje.
-      if (window.dataLayer) window.dataLayer.push({ event: "envio_formulario" });
-
+      // Evento para GTM/GA4. Sin datos personales: ni nombre, ni email, ni mensaje.
+      if (window.dataLayer) window.dataLayer.push({ event: evento });
       // Sin form.reset(): con "noopener" window.open siempre devuelve null y no se
       // puede saber si el navegador bloqueó la ventana; así la persona no pierde lo que escribió.
-      openWa(texto);
+      openWa(armarTexto());
     });
+  }
+
+  function initContactForm() {
+    var form = document.getElementById("contactForm");
+    if (!form) return;
+    var nombre = document.getElementById("cfNombre");
+    var email = document.getElementById("cfEmail");
+    var mensaje = document.getElementById("cfMensaje");
+    var faltante = { cfNombre: "Ingresá tu nombre.", cfEmail: "Ingresá tu email.", cfMensaje: "Escribí tu mensaje." };
+
+    initFormWa(form, [nombre, email, mensaje], function (f) {
+      // trim(): un campo con solo espacios no cuenta como completo.
+      if (!f.value.trim()) return faltante[f.id];
+      if (f === email && !f.validity.valid) return "Revisá el email: tiene que ser del tipo nombre@dominio.com.";
+      return "";
+    }, function () {
+      return "Hola! Soy " + nombre.value.trim() + " (" + email.value.trim() + "). " + mensaje.value.trim();
+    }, "envio_formulario");
+  }
+
+  // Alta de testimonios: el alumno manda su opinión por WhatsApp; se publica a mano en TESTIMONIOS (js/data.js).
+  function initOpinionForm() {
+    var form = document.getElementById("opinionForm");
+    if (!form) return;
+    var nombre = document.getElementById("opNombre");
+    var estrellas = document.getElementById("opEstrellas");
+    var texto = document.getElementById("opTexto");
+    var consentimiento = document.getElementById("opConsentimiento");
+    function elegidas() {
+      var r = form.querySelector('input[name="estrellas"]:checked');
+      return r ? Number(r.value) : 0;
+    }
+
+    initFormWa(form, [nombre, estrellas, texto, consentimiento], function (f) {
+      if (f === estrellas) return elegidas() ? "" : "Elegí una calificación de 1 a 5.";
+      if (f === consentimiento) return f.checked ? "" : "Necesitamos tu autorización para publicarla.";
+      if (!f.value.trim()) return f === nombre ? "Ingresá tu nombre." : "Escribí tu opinión.";
+      return "";
+    }, function () {
+      var n = elegidas();
+      return "Hola! Soy " + nombre.value.trim() + " y quiero dejar mi opinión sobre Ichinen Dojo para el sitio.\n" +
+        "Calificación: " + "★".repeat(n) + "☆".repeat(5 - n) + " (" + n + "/5)\n" +
+        "Opinión: " + texto.value.trim() + "\n" +
+        "Autorizo publicar mi nombre, mi opinión y, si la mando, mi foto en el sitio.";
+    }, "envio_opinion");
   }
 
   /* ---------- Init ---------- */
@@ -367,6 +394,7 @@
     safeRun(renderTestimonios);
     safeRun(initGaleria);
     safeRun(initContactForm);
+    safeRun(initOpinionForm);
     safeRun(initCtas);
   });
 })();
