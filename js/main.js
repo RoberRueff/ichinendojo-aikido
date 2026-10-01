@@ -192,7 +192,12 @@
       var h3 = el("h3", null, "");
       h3.textContent = sede.nombre;
       var dir = el("p", "sede__direccion", "");
-      dir.textContent = sede.direccion;
+      var mapLink = el("a", "js-location-link", sede.direccion);
+      mapLink.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(sede.direccion + ", Argentina");
+      mapLink.target = "_blank";
+      mapLink.rel = "noopener noreferrer";
+      mapLink.setAttribute("data-location-name", sede.nombre);
+      dir.appendChild(mapLink);
 
       var clasesWrap = el("div", "sede__clases");
       var label = el("p", "sede__clases-label", "Clases días y horas:");
