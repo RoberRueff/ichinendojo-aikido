@@ -392,7 +392,7 @@
     safeRun(initNav);
     safeRun(initHeaderScroll);
     safeRun(renderBeneficios);
-    safeRun(function () { renderFaqAccordion("faqAccordionResumen", true); });
+    safeRun(function () { renderFaqAccordion("faqAccordionResumen", false); });
     safeRun(function () { renderFaqAccordion("faqAccordionCompleto", false); });
     safeRun(renderCronograma);
     safeRun(renderSedes);

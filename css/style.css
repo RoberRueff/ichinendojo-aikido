@@ -199,7 +199,7 @@ h2::after {
    y de los botones "Probá una clase gratis..." (ahí como ::after, así el texto está en un solo lugar) */
 .site-nav__cta { position: relative; }
 .site-nav__hint,
-.btn--accent.js-cta-whatsapp::after {
+a.btn--accent::after {
   position: absolute;
   top: calc(100% + 12px);
   width: 250px;
@@ -223,15 +223,15 @@ h2::after {
   pointer-events: none;
 }
 .site-nav__hint { right: 0; transform: translateY(-4px); }
-.btn--accent.js-cta-whatsapp { position: relative; }
-.btn--accent.js-cta-whatsapp:hover,
-.btn--accent.js-cta-whatsapp:focus-visible { z-index: 10; }  /* el globo queda por encima de lo que sigue */
-.btn--accent.js-cta-whatsapp::after {
-  content: "Te respondemos por WhatsApp y coordinamos tu primera clase.";
+a.btn--accent { position: relative; }
+a.btn--accent:hover,
+a.btn--accent:focus-visible { z-index: 10; }  /* el globo queda por encima de lo que sigue */
+a.btn--accent::after {
+  content: "Clase lunes, miércoles y viernes: 19.30 hs.";
   left: 50%;
   transform: translate(-50%, -4px);
 }
-.btn--accent.js-cta-whatsapp::before {   /* flechita del globo */
+a.btn--accent::before {   /* flechita del globo */
   content: "";
   position: absolute;
   top: calc(100% + 6px);
@@ -246,13 +246,13 @@ h2::after {
   transition: opacity .2s ease, visibility .2s;
 }
 @media (hover: hover) {
-  .btn--accent.js-cta-whatsapp:hover::after,
-  .btn--accent.js-cta-whatsapp:hover::before { opacity: 1; visibility: visible; }
-  .btn--accent.js-cta-whatsapp:hover::after { transform: translate(-50%, 0); }
+  a.btn--accent:hover::after,
+  a.btn--accent:hover::before { opacity: 1; visibility: visible; }
+  a.btn--accent:hover::after { transform: translate(-50%, 0); }
 }
-.btn--accent.js-cta-whatsapp:focus-visible::after,
-.btn--accent.js-cta-whatsapp:focus-visible::before { opacity: 1; visibility: visible; }
-.btn--accent.js-cta-whatsapp:focus-visible::after { transform: translate(-50%, 0); }
+a.btn--accent:focus-visible::after,
+a.btn--accent:focus-visible::before { opacity: 1; visibility: visible; }
+a.btn--accent:focus-visible::after { transform: translate(-50%, 0); }
 .site-nav__hint::before {   /* flechita apuntando al link */
   content: "";
   position: absolute;
@@ -271,8 +271,8 @@ h2::after {
 @media (prefers-reduced-motion: reduce) {
   .site-nav a { transition: none; }
   .site-nav__hint,
-  .btn--accent.js-cta-whatsapp::after,
-  .btn--accent.js-cta-whatsapp::before { transition: none; }
+  a.btn--accent::after,
+  a.btn--accent::before { transition: none; }
   .site-nav a:hover,
   .site-nav a:focus-visible { transform: none; }
 }
@@ -379,7 +379,7 @@ h2::after {
   content: "▾";
   display: inline-block;
   transition: transform .15s ease;
-  font-size: 0.75em;
+  font-size: 1.57em;
 }
 .accordion__trigger[aria-expanded="true"]::before { transform: rotate(180deg); }
 .accordion__panel {
@@ -751,7 +751,30 @@ h2::after {
 }
 .whatsapp-float:hover svg,
 .whatsapp-float:focus-visible svg { transform: rotate(-12deg); }
+.whatsapp-float::after {   /* leyenda a la izquierda del botón */
+  content: "Vi el anuncio y quiero mi clase gratis desde wp.";
+  position: absolute;
+  right: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: 220px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background: var(--color-white);
+  color: var(--color-black);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s ease, visibility .2s;
+  pointer-events: none;
+}
+.whatsapp-float:hover::after,
+.whatsapp-float:focus-visible::after { opacity: 1; visibility: visible; }
 @media (prefers-reduced-motion: reduce) {
+  .whatsapp-float::after { transition: none; }
   .whatsapp-float,
   .whatsapp-float svg { transition: none; }
   .whatsapp-float:hover,
