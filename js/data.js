@@ -155,7 +155,7 @@ const TESTIMONIOS = [
   {
     nombre: "Cynthia Mizyrycki",
     foto: "assets/img/cynthia-mizyrycki.webp",
-    estrellas: 5,
+    estrellas: 4,
     texto:
       "Empecé sin saber nada y hoy es una de mis actividades favoritas de la semana. Los profes tienen mucha paciencia y el grupo es muy cálido.",
     origen: "aprobado",
@@ -163,7 +163,7 @@ const TESTIMONIOS = [
   {
     nombre: "Daniel Brgazzi",
     foto: "assets/img/daniel-brgazzi.webp",
-    estrellas: 5,
+    estrellas: 4,
     texto:
       "Un arte marcial distinto: no hay competencia, se aprende a moverse con el cuerpo y a soltar tensiones. Lo recomiendo a cualquier edad.",
     origen: "aprobado",

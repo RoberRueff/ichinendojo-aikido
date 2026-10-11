@@ -698,6 +698,7 @@ a.btn--accent:focus-visible::after { transform: translate(-50%, 0); }
   font-size: 0.85rem;
 }
 .contact-form .btn { align-self: flex-start; }
+.site-footer .contact-form__ok { margin: 0; color: #7ddc8f; font-weight: 700; }
 
 .footer-bottom {
   display: flex;

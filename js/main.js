@@ -243,7 +243,7 @@
       var nameWrap = el("div");
       var nombre = el("p", "testimonio__nombre", "");
       nombre.textContent = t.nombre;
-      var estrellas = el("p", "testimonio__estrellas", "★".repeat(t.estrellas) + "☆".repeat(5 - t.estrellas));
+      var estrellas = el("p", "testimonio__estrellas", "★".repeat(t.estrellas));
       nameWrap.appendChild(nombre);
       nameWrap.appendChild(estrellas);
       if (t.foto) { // la foto es opcional
@@ -296,7 +296,7 @@
   /* ---------- Formularios -> WhatsApp (contacto y opinión) ---------- */
   // Valida los campos con errorDe(f) (texto del error o "") y, si todo está bien, arma el mensaje y lo abre en WhatsApp.
   // Los mensajes van en <p id="{campo}Error">, asociados al campo con aria-describedby.
-  function initFormWa(form, campos, errorDe, armarTexto, evento) {
+  function initFormWa(form, campos, errorDe, armarTexto, evento, abrir) {
     function validar(f) {
       var msg = errorDe(f);
       var p = document.getElementById(f.id + "Error");
@@ -327,7 +327,7 @@
       if (window.dataLayer) window.dataLayer.push({ event: evento });
       // Sin form.reset(): con "noopener" window.open siempre devuelve null y no se
       // puede saber si el navegador bloqueó la ventana; así la persona no pierde lo que escribió.
-      openWa(armarTexto());
+      (abrir || openWa)(armarTexto());
     });
   }
 
@@ -346,7 +346,11 @@
       return "";
     }, function () {
       return "Hola! Soy " + nombre.value.trim() + " (" + email.value.trim() + "). " + mensaje.value.trim();
-    }, "envio_formulario");
+    }, "envio_formulario", function (texto) {
+      window.location.href = "mailto:info@ichinendojo.com.ar?subject=" + encodeURIComponent("Consulta desde el sitio web") +
+        "&body=" + encodeURIComponent(texto);
+      document.getElementById("contactFormOk").hidden = false;
+    });
   }
 
   // Alta de testimonios: el alumno manda su opinión por WhatsApp; se publica a mano en TESTIMONIOS (js/data.js).
